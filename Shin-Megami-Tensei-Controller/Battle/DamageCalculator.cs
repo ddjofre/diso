@@ -1,11 +1,12 @@
-﻿using Shin_Megami_Tensei.Units;
+﻿using Shin_Megami_Tensei.Actions.Affinities;
+using Shin_Megami_Tensei.Units;
 
 namespace Shin_Megami_Tensei.Battle;
 
 public class DamageCalculator
 {
-    
-    public double CalculateEffectAffinity(string affinity)
+
+    public double CalculateEffectAffinityOld(string affinity)
     {
         double effectAffinity = 0;
 
@@ -38,6 +39,15 @@ public class DamageCalculator
         return effectAffinity;
 
     }
+    
+    
+    private double CalculateEffectAffinity(string affinityCombat)
+    {
+        AffinityFactory affinityFactory = new AffinityFactory();
+        BaseAffinity affinity = affinityFactory.GetAffinity(affinityCombat);
+        return affinity.GetAffinity();
+    }
+    
     
     public int CalculateDamagePhys(Unit attacker, string affinityCombat)
     {

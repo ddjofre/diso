@@ -32,11 +32,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\danij\\Downloads\\Proyecto-Megaten-IIC2113\\Shin-Megami-Tensei-Controller\\Shin-Megami-Tensei-Controller.csproj",
+      "projectUniqueName": "C:\\Users\\danij\\Downloads\\repo\\diso\\Shin-Megami-Tensei-Controller\\Shin-Megami-Tensei-Controller.csproj",
       "projectName": "Shin-Megami-Tensei-Controller",
-      "projectPath": "C:\\Users\\danij\\Downloads\\Proyecto-Megaten-IIC2113\\Shin-Megami-Tensei-Controller\\Shin-Megami-Tensei-Controller.csproj",
+      "projectPath": "C:\\Users\\danij\\Downloads\\repo\\diso\\Shin-Megami-Tensei-Controller\\Shin-Megami-Tensei-Controller.csproj",
       "packagesPath": "C:\\Users\\danij\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\danij\\Downloads\\Proyecto-Megaten-IIC2113\\Shin-Megami-Tensei-Controller\\obj\\",
+      "outputPath": "C:\\Users\\danij\\Downloads\\repo\\diso\\Shin-Megami-Tensei-Controller\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\danij\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -51,8 +51,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\danij\\Downloads\\Proyecto-Megaten-IIC2113\\Shin-Megami-Tensei-View\\Shin-Megami-Tensei-View.csproj": {
-              "projectPath": "C:\\Users\\danij\\Downloads\\Proyecto-Megaten-IIC2113\\Shin-Megami-Tensei-View\\Shin-Megami-Tensei-View.csproj"
+            "C:\\Users\\danij\\Downloads\\repo\\diso\\Shin-Megami-Tensei-View\\Shin-Megami-Tensei-View.csproj": {
+              "projectPath": "C:\\Users\\danij\\Downloads\\repo\\diso\\Shin-Megami-Tensei-View\\Shin-Megami-Tensei-View.csproj"
             }
           }
         }

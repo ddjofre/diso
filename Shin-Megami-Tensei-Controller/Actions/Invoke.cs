@@ -9,7 +9,7 @@ namespace Shin_Megami_Tensei.Actions;
 public class Invoke
 {
     private View _view;
-    private DamageCalculator _damageCalculator;
+    private Battle.DamageCalculator _damageCalculator;
     private TurnCalculator _turnCalculator;
     
     public Invoke(View view, TurnCalculator turnCalculator)

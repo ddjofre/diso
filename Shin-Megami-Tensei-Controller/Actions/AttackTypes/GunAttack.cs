@@ -20,21 +20,6 @@ public class GunAttack: BaseAttack
 
     }
     
-    protected override int GetDamageAttack(Unit attacker, Unit target, int _powerSkill)
-    {
-        DamageCalculator damageCalculator = new DamageCalculator();
-
-        if (isAttackInHabilitie)
-        {
-            return damageCalculator.CalculateDamageGunHability(attacker, _powerSkill, GetAffinity(target));            
-        }
-        else
-        {
-            return damageCalculator.CalculateDamageGun(attacker, GetAffinity(target));
-        }
-        
-        
-    }
     
     protected override void GetAttackMessage(Unit attacker, Unit target)
     {

@@ -88,7 +88,7 @@ public class SingleTargetAttack: BaseTypeTargetAttack
     
     public override void Execute(Unit actualUnitPlaying, Unit target, Player player)
     {
-        _typeAttack.MakeAttack(actualUnitPlaying,target);
+        _typeAttack.MakeAttack(actualUnitPlaying,target,_typeAttack.typeAttack );
         _turnCalculator.CalculateTurnsAfterAttack(player, target, _typeAttack.typeAttack);
         _typeAttack.ShowActionResults(actualUnitPlaying, target);
     }

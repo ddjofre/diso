@@ -21,21 +21,6 @@ public class FireAttack: BaseAttack
     }
     
     
-    protected override int GetDamageAttack(Unit attacker, Unit target, int _powerSkill)
-    {
-        DamageCalculator damageCalculator = new DamageCalculator();
-
-        if (isAttackInHabilitie)
-        {
-            return damageCalculator.CalculateDamageMagicHability(attacker, _powerSkill, GetAffinity(target));            
-        }
-        else
-        {
-            return damageCalculator.CalculateDamageMagic(attacker, GetAffinity(target));
-        }
-        
-        
-    }
     
     protected override void GetAttackMessage(Unit attacker, Unit target)
     {

@@ -21,22 +21,6 @@ public class IceAttack: BaseAttack
 
     }
     
-    protected override int GetDamageAttack(Unit attacker, Unit target, int _powerSkill)
-    {
-        DamageCalculator damageCalculator = new DamageCalculator();
-
-        if (isAttackInHabilitie)
-        {
-            return damageCalculator.CalculateDamageMagicHability(attacker, _powerSkill, GetAffinity(target));            
-        }
-        else
-        {
-            return damageCalculator.CalculateDamageMagic(attacker, GetAffinity(target));
-        }
-        
-        
-    }
-    
     protected override void GetAttackMessage(Unit attacker, Unit target)
     {
         _view.WriteLine($"{attacker.name} lanza hielo a {target.name}");

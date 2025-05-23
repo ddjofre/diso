@@ -1,6 +1,8 @@
 ﻿using Shin_Megami_Tensei.Enumerates;
 using Shin_Megami_Tensei_View;
+using Shin_Megami_Tensei.Actions.Affinities;
 using Shin_Megami_Tensei.Battle;
+using Shin_Megami_Tensei.DamageCalculators;
 using Shin_Megami_Tensei.GameComponents;
 using Shin_Megami_Tensei.Units;
 
@@ -15,6 +17,7 @@ public abstract class BaseAttack
     public bool isAttackInHabilitie;
     public int powerSkill;
     public TypeAttack typeAttack;
+    
 
     public BaseAttack(View view, TurnCalculator turnCalculator)
     {
@@ -25,7 +28,7 @@ public abstract class BaseAttack
 
     }
     
-    private void GetAffinityMessage(Unit actualUnitPlaying, Unit target, string affinity)
+    private void GetAffinityMessages(Unit actualUnitPlaying, Unit target, string affinity)
     {
         if (affinity.Equals("Wk"))
         {
@@ -49,6 +52,18 @@ public abstract class BaseAttack
         }
     }
     
+    private void GetAffinityMessage(Unit actualUnitPlaying, Unit target)
+    {
+        AffinityFactory affinityFactory = new AffinityFactory();
+        BaseAffinity affinity = affinityFactory.GetAffinity(GetAffinity(target));
+        var message = affinity.GetAffinityMessage(target, actualUnitPlaying);
+
+        if (!string.IsNullOrEmpty(message))
+        {
+            _view.WriteLine(message);
+        }
+    }
+    
     private void SetLimitDamage(Unit target)
     {
         if (target.ActualHP <= 0)
@@ -67,22 +82,24 @@ public abstract class BaseAttack
     }
     
     
-    protected virtual int GetDamageAttack(Unit attacker, Unit target, int _powerSkill)
+    protected int GetDamageAttack(Unit attacker, Unit target, int _powerSkill, TypeAttack typeAttack)
     {
-        DamageCalculator damageCalculator = new DamageCalculator();
+        DamageCalculatorFactory factory = new DamageCalculatorFactory();
+        BaseDamageCalculator damageCalculator = factory.GetDamageCalculator(typeAttack);
 
         if (isAttackInHabilitie)
         {
-            return damageCalculator.CalculateDamagePhysHability(attacker, _powerSkill, GetAffinity(target));            
+            return damageCalculator.CalculateDamageAbility(attacker, _powerSkill, GetAffinity(target));            
         }
+        
         else
         {
-            return damageCalculator.CalculateDamagePhys(attacker, GetAffinity(target));
+            return damageCalculator.CalculateDamage(attacker, GetAffinity(target));
         }
         
     }
     
-    public void MakeAttack(Unit attacker, Unit target)
+    public void MakeAttack(Unit attacker, Unit target, TypeAttack typeAttack)
     {
         if(GetAffinity(target).Equals("Nu"))
         {
@@ -91,7 +108,7 @@ public abstract class BaseAttack
         
         else if (GetAffinity(target).Equals("Rp"))
         {
-            int damage = GetDamageAttack(attacker, target, powerSkill);
+            int damage = GetDamageAttack(attacker, target, powerSkill, typeAttack);
             attacker.ActualHP -= damage;
             SetLimitDamage(target);
             GetAttackMessage(attacker, target);
@@ -99,7 +116,7 @@ public abstract class BaseAttack
         
         else if (GetAffinity(target).Equals("Dr"))
         {
-            int damage = GetDamageAttack(attacker, target, powerSkill);
+            int damage = GetDamageAttack(attacker, target, powerSkill, typeAttack);
             target.ActualHP += damage;
             SetLimitAbsorbe(target);
             GetAttackMessage(attacker, target);
@@ -107,7 +124,7 @@ public abstract class BaseAttack
         
         else
         {
-            int damage = GetDamageAttack(attacker, target, powerSkill);
+            int damage = GetDamageAttack(attacker, target, powerSkill, typeAttack);
             target.ActualHP -= damage;
             SetLimitDamage(target);
             GetAttackMessage(attacker, target);
@@ -139,7 +156,7 @@ public abstract class BaseAttack
     
     public void ShowActionResults(Unit actualUnitPlaying, Unit target)
     {
-        GetAffinityMessage(actualUnitPlaying, target, GetAffinity(target));
+        GetAffinityMessage(actualUnitPlaying, target);
         GetDamageMessage(actualUnitPlaying, target);
         GetFinalHpMessage(actualUnitPlaying, target);
         
@@ -150,6 +167,7 @@ public abstract class BaseAttack
     }
     
     protected abstract void GetAttackMessage(Unit attacker, Unit target);
+    
     protected abstract string GetAffinity(Unit target);
 
 
