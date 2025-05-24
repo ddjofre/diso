@@ -19,7 +19,6 @@ public class DrainAffinity: BaseAffinity
         player.BlinkingTurns = 0;
         player.FullTurns = 0;
     }
-
     
     public override string GetAffinityMessage(Unit target, Unit actualUnitPlaying)
     {
