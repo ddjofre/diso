@@ -12,13 +12,12 @@ using Shin_Megami_Tensei.Units;
 public class SingleTypeTarget: BaseTypeTarget
 {
     private readonly View _view;
-    private readonly BaseAttack _typeAttack;
-    private readonly TurnCalculator _turnCalculator;
+    public TypeTarget targetType;
     
-    public SingleTypeTarget(View view, BaseAttack typeAttack, TurnCalculator turnCalculator): base(){
-        _view = view;
-        _typeAttack = typeAttack;
-        _turnCalculator = turnCalculator;
+    public SingleTypeTarget(View view, TypeTarget typeTarget): base(typeTarget){
+        
+        _view = view; 
+        targetType = typeTarget;
     }
     
     private List<(int displayNumber, int unitIndex)> BuildTargetIndex(Player playerRival)
@@ -39,19 +38,34 @@ public class SingleTypeTarget: BaseTypeTarget
 
         return mapping;
     }
-    
-    private bool IsCancelChoice(int userInput, int maxDisplayNumber)
-    {
-        return userInput == maxDisplayNumber;
-    }
 
     private int GetUnitIndexFromChoice(List<(int displayNumber, int unitIndex)> mapping, int userInput)
     {
         return mapping.LastOrDefault(pair => pair.displayNumber == userInput).unitIndex;
     }
     
+    private bool IsCancelChoice(int userInput, int maxDisplayNumber)
+    {
+        return userInput == maxDisplayNumber;
+    }
     
-    public void ShowAvailableTargets(Player playerRival, Unit actualUnitPlaying)
+    private int ChooseTarget(Player playerRival)
+    {
+        var selectableTargets = BuildTargetIndex(playerRival);
+        
+        int userInput = Convert.ToInt32(_view.ReadLine());
+
+        if (IsCancelChoice(userInput, selectableTargets.Count + 1))
+        {
+            return -1;
+        }
+        
+        return GetUnitIndexFromChoice(selectableTargets, userInput);
+    }
+
+    
+    
+    public override void ShowAvailablesTargets(Player playerRival, Unit actualUnitPlaying)
     {
         _view.WriteLine($"Seleccione un objetivo para {actualUnitPlaying.name}");
 
@@ -66,23 +80,7 @@ public class SingleTypeTarget: BaseTypeTarget
         }
         _view.WriteLine($"{displayNumber}-Cancelar");
     }
-    
-    
-    public int ChooseTarget(Player playerRival)
-    {
-        var selectableTargets = BuildTargetIndex(playerRival);
-        
-        int userInput = Convert.ToInt32(_view.ReadLine());
 
-        if (IsCancelChoice(userInput, selectableTargets.Count + 1))
-        {
-            return -1;
-        }
-
-        return GetUnitIndexFromChoice(selectableTargets, userInput);
-    }
-
-    
     
     public override List<int> GetTargets(Player playerRival)
     {
@@ -91,13 +89,7 @@ public class SingleTypeTarget: BaseTypeTarget
         return targets;
     }
 
-
-    public Unit GetRival(Player rival, int indexRival)
-    {
-        Unit rivalChosen = rival.Team.UnitsInGame[indexRival];
-        _view.WriteLine("----------------------------------------");
-        return rivalChosen;
-    }
+    
     
     
     

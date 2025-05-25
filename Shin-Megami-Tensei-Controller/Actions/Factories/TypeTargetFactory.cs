@@ -6,13 +6,13 @@ using Shin_Megami_Tensei.Battle;
 namespace Shin_Megami_Tensei.Actions.Factories;
 
 
-public class AttackTargetFactory
+public class TypeTargetFactory
 {
     
     private View _view;
     private TurnCalculator _turnCalculator;
 
-    public AttackTargetFactory(View view, TurnCalculator turnCalculator)
+    public TypeTargetFactory(View view, TurnCalculator turnCalculator)
     {
         _view = view;
         _turnCalculator = turnCalculator;

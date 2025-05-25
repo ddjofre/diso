@@ -5,12 +5,12 @@ using Shin_Megami_Tensei.Battle;
 
 namespace Shin_Megami_Tensei.Actions.Factories;
 
-public class AttackFactory
+public class TypeAttackFactory
 {
     private View _view;
     private TurnCalculator _turnCalculator;
 
-    public AttackFactory(View view, TurnCalculator turnCalculator)
+    public TypeAttackFactory(View view, TurnCalculator turnCalculator)
     {
         _view = view;
         _turnCalculator = turnCalculator;

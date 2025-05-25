@@ -1,4 +1,5 @@
 ﻿using Shin_Megami_Tensei.Actions.Affinities;
+using Shin_Megami_Tensei.Actions.Factories;
 using Shin_Megami_Tensei.Units;
 
 namespace Shin_Megami_Tensei.Battle;

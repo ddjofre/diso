@@ -35,8 +35,7 @@ public class TurnCalculator
     
     public void CalculateTurnsAfterAttack(Player player, Unit target, TypeAttack attackType)
     {
-
-
+        
         Affinity affinities = target.affinity;
         
         string affinityValue = attackType switch

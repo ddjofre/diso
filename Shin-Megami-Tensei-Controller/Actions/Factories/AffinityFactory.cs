@@ -1,4 +1,6 @@
-﻿namespace Shin_Megami_Tensei.Actions.Affinities;
+﻿using Shin_Megami_Tensei.Actions.Affinities;
+
+namespace Shin_Megami_Tensei.Actions.Factories;
 
 public class AffinityFactory
 {

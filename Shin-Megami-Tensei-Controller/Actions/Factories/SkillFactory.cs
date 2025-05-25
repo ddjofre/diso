@@ -9,16 +9,16 @@ public class SkillFactory {
     
     private View _view;
     private TurnCalculator _turnCalculator;
-    private AttackFactory _attackFactory;
-    private AttackTargetFactory _attackTargetFactory;
+    private TypeAttackFactory _typeAttackFactory;
+    private TypeTargetFactory _typeTargetFactory;
     private Dictionary<string, TypeAttack> _skillMap;
 
     public SkillFactory(View view, TurnCalculator turnCalculator)
     {
         _view = view;
         _turnCalculator = turnCalculator;
-        _attackFactory = new AttackFactory(_view, _turnCalculator);
-        _attackTargetFactory = new AttackTargetFactory(_view, _turnCalculator);
+        _typeAttackFactory = new TypeAttackFactory(_view, _turnCalculator);
+        _typeTargetFactory = new TypeTargetFactory(_view, _turnCalculator);
         _skillMap = new Dictionary<string, TypeAttack>
         {
             { "Lunge", TypeAttack.Phys },
@@ -73,10 +73,10 @@ public class SkillFactory {
 
     private Skill CreateSkill(SkillInfo skillInfo, TypeAttack typeAttack)
     {
-        var attack = _attackFactory.CreateTypeAttack(typeAttack);
+        var attack = _typeAttackFactory.CreateTypeAttack(typeAttack);
         attack.powerSkill = skillInfo.power;
         attack.isAttackInHabilitie = true;
-        var targetAttack = _attackTargetFactory.CreateTypeTarget(attack);
+        var targetAttack = _typeTargetFactory.CreateTypeTarget(attack);
         return new Skill(skillInfo, targetAttack);
     }
     

@@ -2,6 +2,7 @@
 using Shin_Megami_Tensei_View;
 using Shin_Megami_Tensei.Actions.Affinities;
 using Shin_Megami_Tensei.Actions.AttackEffects;
+using Shin_Megami_Tensei.Actions.Factories;
 using Shin_Megami_Tensei.Battle;
 using Shin_Megami_Tensei.DamageCalculators;
 using Shin_Megami_Tensei.GameComponents;
@@ -42,7 +43,7 @@ public abstract class BaseAttack
         }
     }
     
-    protected int GetDamageAttack(Unit attacker, Unit target, int _powerSkill, TypeAttack typeAttack)
+    private int GetDamageAttack(Unit attacker, Unit target, int _powerSkill, TypeAttack typeAttack)
     {
         DamageCalculatorFactory factory = new DamageCalculatorFactory();
         BaseDamageCalculator damageCalculator = factory.GetDamageCalculator(typeAttack);
@@ -54,6 +55,21 @@ public abstract class BaseAttack
         
         return damageCalculator.CalculateDamage(attacker, GetAffinity(target));
         
+    }
+    
+    private void GetFinalHpMessage(Unit attacker, Unit target)
+    {
+        var affectedUnit = _currentEffectHandler.GetAffectedUnit(attacker, target);
+        _view.WriteLine($"{affectedUnit.name} termina con HP:{affectedUnit.ActualHP}/{affectedUnit.stats.HP}");
+    }
+    
+    private void GetDamageMessage(Unit attacker, Unit target)
+    {
+        var message = _currentEffectHandler.GetDamageMessage(attacker, target);
+        if (!string.IsNullOrEmpty(message))
+        {
+            _view.WriteLine(message);
+        }
     }
     
     
@@ -77,45 +93,10 @@ public abstract class BaseAttack
             GetAttackMessage(attacker, target);
         }
         */
-    }
-    
-    
-    private void GetFinalHpMessagesss(Unit attacker, Unit target)
-    {
-        if (GetAffinity(target) == "Rp")
-        {
-            _view.WriteLine($"{attacker.name} termina con HP:{attacker.ActualHP}/{attacker.stats.HP}");
-        }
-        else
-        {
-            _view.WriteLine($"{target.name} termina con HP:{target.ActualHP}/{target.stats.HP}");
-        }
-    }
-    
-    private  void GetDamageMessagessss(Unit attacker, Unit target)
-    {
         
-        if (GetAffinity(target) != "Nu" && GetAffinity(target) != "Rp" && GetAffinity(target) != "Dr"){
-            
-            _view.WriteLine($"{target.name} recibe {attacker.damageRound} de daño");   
-        }
-        
+        ShowActionResults(attacker, target);
     }
     
-    private void GetFinalHpMessage(Unit attacker, Unit target)
-    {
-        var affectedUnit = _currentEffectHandler.GetAffectedUnit(attacker, target);
-        _view.WriteLine($"{affectedUnit.name} termina con HP:{affectedUnit.ActualHP}/{affectedUnit.stats.HP}");
-    }
-    
-    private void GetDamageMessage(Unit attacker, Unit target)
-    {
-        var message = _currentEffectHandler.GetDamageMessage(attacker, target);
-        if (!string.IsNullOrEmpty(message))
-        {
-            _view.WriteLine(message);
-        }
-    }
     
     public void ShowActionResults(Unit actualUnitPlaying, Unit target)
     {
@@ -124,10 +105,12 @@ public abstract class BaseAttack
         GetDamageMessage(actualUnitPlaying, target);
         GetFinalHpMessage(actualUnitPlaying, target);
         
+        /*
         _view.WriteLine("----------------------------------------");
         _view.WriteLine($"Se han consumido {_turnCalculator.FullTurnsConsumed} Full Turn(s) y {_turnCalculator.BlinkingTurnsConsumed} Blinking Turn(s)");
         _view.WriteLine($"Se han obtenido {_turnCalculator.BlinkingTurnsObtained} Blinking Turn(s)");
         _view.WriteLine("----------------------------------------");
+        */
     }
     
     protected abstract void GetAttackMessage(Unit attacker, Unit target);
