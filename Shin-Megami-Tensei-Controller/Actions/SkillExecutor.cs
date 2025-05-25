@@ -11,14 +11,14 @@ public class SkillExecutor
 {
     private View _view;
     private TurnCalculator _turnCalculator;
-    private FinalSkillFactory _skillFactory;
-    private FinalSkill _skill;
+    private SkillFactory _skillFactory;
+    private Skill _skill;
 
     public SkillExecutor(View view, TurnCalculator turnCalculator)
     {
         _view = view;
         _turnCalculator = turnCalculator;
-        _skillFactory = new FinalSkillFactory(_view, _turnCalculator );
+        _skillFactory = new SkillFactory(_view, _turnCalculator );
     }
     
     
@@ -42,9 +42,9 @@ public class SkillExecutor
     }
 
     
-    public FinalSkill CreateSkill(SkillInfo skillInfo)
+    public Skill CreateSkill(SkillInfo skillInfo)
     {
-        FinalSkill skill = _skillFactory.CreateFinalSkillFromMap(skillInfo.name, skillInfo);
+        Skill skill = _skillFactory.CreateFinalSkillFromMap(skillInfo.name, skillInfo);
         _skill = skill;
         return skill;
     }

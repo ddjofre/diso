@@ -1,6 +1,5 @@
 ﻿using Shin_Megami_Tensei_View;
 using Shin_Megami_Tensei.Actions;
-using Shin_Megami_Tensei.Actions.AttackTargetType;
 using Shin_Megami_Tensei.Actions.AttackTypes;
 using Shin_Megami_Tensei.Actions.Factories;
 using Shin_Megami_Tensei.Actions.TargetTypes;
@@ -16,14 +15,12 @@ public class ActionManager
 {
     private View _view;
     private TurnCalculator _turnCalculator;
-    public int actionChoosed;
-    private SkillFactory _skillFactory;
+    private int _actionChosen;
 
     public ActionManager(View view)
     {
         _view = view;
         _turnCalculator = new TurnCalculator();
-        _skillFactory = new SkillFactory(_view, _turnCalculator);
 
 
     }
@@ -58,7 +55,7 @@ public class ActionManager
         int actionChosen = Convert.ToInt32(_view.ReadLine());
         _view.WriteLine("----------------------------------------");
 
-        actionChoosed = actionChosen;
+        _actionChosen = actionChosen;
         
         return actionChosen;
     }
@@ -71,7 +68,6 @@ public class ActionManager
             BaseTypeTarget singleTypeTarget = new SingleTypeTarget(_view, TypeTarget.Single);
             AttackExecutor attackExecutor = new AttackExecutor(attackPhys, singleTypeTarget, _turnCalculator, _view);
             return attackExecutor;
-            //return new SingleTargetAttack(_view, attackPhys, _turnCalculator);
         }
 
         else if (actionChoice == 2)
@@ -92,26 +88,26 @@ public class ActionManager
     
     private void MakeActionSamurai(Player player, Player playerRival, Unit actualUnitPlaying)
     {
-        if (actionChoosed == 1 || actionChoosed == 2)
+        if (_actionChosen == 1 || _actionChosen == 2)
         {
             HandleAttackOrShoot(player, playerRival, actualUnitPlaying);
         }
-        else if (actionChoosed == 3)
+        else if (_actionChosen == 3)
         {
             MakeUseOfSkills(actualUnitPlaying, player, playerRival);
         }
 
-        else if(actionChoosed == 4)
+        else if(_actionChosen == 4)
         {
             HandleSummon(player, playerRival, actualUnitPlaying);
         }
         
-        else if(actionChoosed == 5)
+        else if(_actionChosen == 5)
         {
             HandlePassTurn(player);
         }
         
-        else if (actionChoosed == 6)
+        else if (_actionChosen == 6)
         {
             actualUnitPlaying.DoesSurrender = true;
         }
@@ -122,21 +118,21 @@ public class ActionManager
     
     private void MakeActionMonster(Player player, Player playerRival, Unit actualUnitPlaying)
     {
-        if (actionChoosed == 1)
+        if (_actionChosen == 1)
         {
             HandleAttackOrShoot(player, playerRival, actualUnitPlaying);
         }
-        else if (actionChoosed == 2)
+        else if (_actionChosen == 2)
         {
             MakeUseOfSkills(actualUnitPlaying, player, playerRival);
         }
 
-        else if(actionChoosed == 3)
+        else if(_actionChosen == 3)
         {
             HandleSummon(player, playerRival, actualUnitPlaying);
         }
         
-        else if (actionChoosed == 4)
+        else if (_actionChosen == 4)
         {
             HandlePassTurn(player);
         }
@@ -160,18 +156,13 @@ public class ActionManager
     
     private void HandleAttackOrShoot(Player player, Player playerRival, Unit actualUnitPlaying)
     {
-        //SingleTargetAttack action = GetActionFromChoice(actionChoosed, actualUnitPlaying, playerRival, player);
-        AttackExecutor actionExecutor = GetActionFromChoice(actionChoosed);
+        AttackExecutor actionExecutor = GetActionFromChoice(_actionChosen);
 
         actionExecutor.ShowAvailableTargets(playerRival, actualUnitPlaying);
-        
-        //action.ShowAvailableTargets(playerRival, actualUnitPlaying);
         
         List<int> targetsIndexes = actionExecutor.GetTargets(playerRival);
 
         int targetIndex = targetsIndexes[0];
-        
-        //int targetIndex = action.ChooseTarget(playerRival);
 
         if (targetIndex == -1)
         {
@@ -183,10 +174,7 @@ public class ActionManager
         Unit target = actionExecutor.GetRival(targetIndex, playerRival);
         
         actionExecutor.Execute( target, actualUnitPlaying, player, playerRival, targetsIndexes);
-
-        //Unit target = action.GetRival(playerRival, targetIndex);
-
-        //action.Execute(actualUnitPlaying, target, player);
+        
     }
     
     private void HandlePassTurn(Player player)
@@ -196,7 +184,6 @@ public class ActionManager
         _view.WriteLine("----------------------------------------");
     }
     
-
     private void HandleSummon(Player player, Player playerRival, Unit actualUnitPlaying)
     {
         if (actualUnitPlaying.type.Equals(TypeUnits.samurai))
@@ -255,14 +242,11 @@ public class ActionManager
         _view.WriteLine("----------------------------------------");
     }
     
-    
     private void MakeUseOfSkills(Unit actualUnitPlaying, Player player, Player playerRival)
     {
         SkillExecutor skillExecutor = new SkillExecutor(_view, _turnCalculator);
         int printedSkillCount = skillExecutor.ShowAvailableSkills(actualUnitPlaying);
         
-        
-        //int printedSkillCount = ShowAvailableSkills(actualUnitPlaying);
         int optionUser = Convert.ToInt32(_view.ReadLine());
         _view.WriteLine("----------------------------------------");
         
@@ -274,42 +258,11 @@ public class ActionManager
 
         SkillInfo skillInfo = actualUnitPlaying.skillInfo[optionUser - 1];
 
-        FinalSkill skill = skillExecutor.CreateSkill(skillInfo);
-        
-        //Skill skill = _skillFactory.CreateSkillFromMap(skillInfo.name, skillInfo);
-        //skill.typeTargetAttack.ShowAvailableTargets(playerRival, actualUnitPlaying);
-        
-        
-        //int indexRival = skill.typeTargetAttack.ChooseTarget(playerRival);
-        //Unit target = skill.typeTargetAttack.GetRival(playerRival, indexRival);
-        
-        //skill.typeTargetAttack.Execute(actualUnitPlaying, target, player );
-        //skill.DiscountMP(actualUnitPlaying);
+        Skill skill = skillExecutor.CreateSkill(skillInfo);
         
         skillExecutor.ExecuteSkill(actualUnitPlaying, playerRival, player);
         
     }
-    
-
-    private int ShowAvailableSkills(Unit actualUnitPlaying)
-    {
-        _view.WriteLine($"Seleccione una habilidad para que {actualUnitPlaying.name} use");
-
-        int numVecesQueSeHizoPrint = 0;
-            
-        for (int i = 0; i < actualUnitPlaying.skillInfo.Count; i++)
-        {
-            if (actualUnitPlaying.skillInfo[i].cost <= actualUnitPlaying.ActualMP)
-            {
-                _view.WriteLine($"{i + 1}-{actualUnitPlaying.skillInfo[i].name} MP:{actualUnitPlaying.skillInfo[i].cost}");
-                numVecesQueSeHizoPrint++;
-            }
-        }
-            
-        _view.WriteLine($"{numVecesQueSeHizoPrint + 1}-Cancelar");
-        return numVecesQueSeHizoPrint;
-    }
-
     
     
     private void RetryActionChoice(Player player, Player playerRival, Unit actualUnitPlaying)
