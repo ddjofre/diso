@@ -1,4 +1,5 @@
 ﻿using Shin_Megami_Tensei_View;
+using Shin_Megami_Tensei.Actions.Factories;
 using Shin_Megami_Tensei.Battle.ActionManagers;
 using Shin_Megami_Tensei.Enumerates;
 using Shin_Megami_Tensei.GameComponents;
@@ -16,6 +17,7 @@ public class Battle
 
     private UnitManager _unitManager;
     private ActionManager _actionManager;
+    private ActionManagerFactory _actionManagerFactory; 
     
     private Unit rivalChoosed;
 
@@ -25,6 +27,7 @@ public class Battle
         _battleInfoDisplay = new BattleInfoDisplay(_view);
         _unitManager = new UnitManager(_view);
         _actionManager = new ActionManager(_view);
+        _actionManagerFactory = new ActionManagerFactory(_view); 
     }
     
     
@@ -104,8 +107,14 @@ public class Battle
         _battleInfoDisplay.ShowTurnsPLayer(actualPlayer);
         _battleInfoDisplay.ShowOrderUnitsPlay(actualPlayer);
         
-        _actionManager.ChooseAction(actualUnitPlaying);
-        _actionManager.MakeAction(actualPlayer, rivalPlayer, actualUnitPlaying);
+        BaseActionManager actionManager = _actionManagerFactory.GetActionManager(actualUnitPlaying);
+        
+        actionManager.ChooseAction(actualUnitPlaying);
+        actionManager.MakeAction(actualPlayer, rivalPlayer, actualUnitPlaying);
+        
+        
+        //_actionManager.ChooseAction(actualUnitPlaying);
+        //_actionManager.MakeAction(actualPlayer, rivalPlayer, actualUnitPlaying);
         ActualizeOrderToUnits(actualPlayer);
         
     }

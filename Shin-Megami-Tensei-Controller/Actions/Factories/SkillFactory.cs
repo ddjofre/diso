@@ -10,7 +10,7 @@ public class SkillFactory
     private View _view;
     private TurnCalculator _turnCalculator;
     private TypeAttackFactory _typeAttackFactory;
-    private FinalTypeTargetFactory _typeTargetFactory;
+    private TypeTargetFactory _typeTargetFactory;
     private Dictionary<string, (TypeAttack, TypeTarget)> _skillMap;
 
     public SkillFactory(View view, TurnCalculator turnCalculator)
@@ -18,7 +18,7 @@ public class SkillFactory
         _view = view;
         _turnCalculator = turnCalculator;
         _typeAttackFactory = new TypeAttackFactory(_view, _turnCalculator);
-        _typeTargetFactory = new FinalTypeTargetFactory(_view, _turnCalculator);
+        _typeTargetFactory = new TypeTargetFactory(_view, _turnCalculator);
         _skillMap = new Dictionary<string, (TypeAttack, TypeTarget)>
         
         {

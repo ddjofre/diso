@@ -7,13 +7,13 @@ using Shin_Megami_Tensei.Enumerates;
 namespace Shin_Megami_Tensei.Actions.Factories;
 
 
-public class FinalTypeTargetFactory
+public class TypeTargetFactory
 {
         
     private View _view;
     private TurnCalculator _turnCalculator;
 
-    public FinalTypeTargetFactory(View view, TurnCalculator turnCalculator)
+    public TypeTargetFactory(View view, TurnCalculator turnCalculator)
     {
         _view = view;
         _turnCalculator = turnCalculator;

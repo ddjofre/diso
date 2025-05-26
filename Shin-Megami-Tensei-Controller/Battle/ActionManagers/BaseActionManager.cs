@@ -20,8 +20,7 @@ public abstract class BaseActionManager
         _view = view;
         _turnCalculator = new TurnCalculator();
     }
-
-    protected abstract void ShowPossibleActions(Unit actualUnitPlaying);
+    
     
     public int ChooseAction(Unit actualUnitPlaying)
     {
@@ -35,8 +34,6 @@ public abstract class BaseActionManager
         
         return actionChosen;
     }
-    
-    public abstract void MakeAction(Player player, Player playerRival, Unit actualUnitPlaying);
     
     // Shared methods
     protected void HandlePassTurn(Player player)
@@ -115,4 +112,8 @@ public abstract class BaseActionManager
     }
     
     protected abstract void PerformSummon(Player player, Player playerRival, Unit actualUnitPlaying);
+    
+    protected abstract void ShowPossibleActions(Unit actualUnitPlaying);
+    
+    public abstract void MakeAction(Player player, Player playerRival, Unit actualUnitPlaying);
 }
