@@ -1,4 +1,5 @@
 ﻿using Shin_Megami_Tensei_View;
+using Shin_Megami_Tensei.Battle.ActionManagers;
 using Shin_Megami_Tensei.Enumerates;
 using Shin_Megami_Tensei.GameComponents;
 using Shin_Megami_Tensei.GameComponents.PlayerComponents;

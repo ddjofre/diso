@@ -1,5 +1,4 @@
 ﻿using Shin_Megami_Tensei_View;
-using Shin_Megami_Tensei.Actions.AttackTargetType;
 using Shin_Megami_Tensei.Actions.AttackTypes;
 using Shin_Megami_Tensei.Actions.TargetTypes;
 using Shin_Megami_Tensei.Battle;
