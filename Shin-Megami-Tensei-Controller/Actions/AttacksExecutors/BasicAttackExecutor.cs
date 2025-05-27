@@ -7,7 +7,7 @@ using Shin_Megami_Tensei.Units;
 
 namespace Shin_Megami_Tensei.Actions.AttacksExecutors;
 
-public class AttackExecutor
+public class BasicAttackExecutor
 {
     private BaseOffensive _typeOffensive;
     private BaseTypeTarget _typeTarget;
@@ -15,7 +15,7 @@ public class AttackExecutor
     private View _view;
     
     
-    public AttackExecutor(BaseOffensive baseOffensive, BaseTypeTarget baseTypeTarget, TurnCalculator turnCalculator, View view)
+    public BasicAttackExecutor(BaseOffensive baseOffensive, BaseTypeTarget baseTypeTarget, TurnCalculator turnCalculator, View view)
     {
         _typeOffensive = baseOffensive;
         _typeTarget = baseTypeTarget;

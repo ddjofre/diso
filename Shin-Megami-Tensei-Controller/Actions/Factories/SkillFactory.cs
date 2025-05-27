@@ -83,7 +83,7 @@ public class SkillFactory
 
         var target = _typeTargetFactory.CreateTypeTarget(typeTarget);
 
-        var attackExecutor = new AttackExecutor(attack, target, _turnCalculator, _view);
+        var attackExecutor = new BasicAttackExecutor(attack, target, _turnCalculator, _view);
         
         return new Skill(skillInfo, attackExecutor);
     }

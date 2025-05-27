@@ -51,12 +51,12 @@ public class SkillExecutor
     
     public void ExecuteSkill(Unit actualUnitPlaying, Player playerRival, Player player)
     {
-        _skill._attackExecutor.ShowAvailableTargets(playerRival, actualUnitPlaying);
-        List<int> targetsIndexes = _skill._attackExecutor.GetTargets(playerRival);
+        _skill.BasicAttackExecutor.ShowAvailableTargets(playerRival, actualUnitPlaying);
+        List<int> targetsIndexes = _skill.BasicAttackExecutor.GetTargets(playerRival);
                 
-        Unit target = _skill._attackExecutor.GetRival(targetsIndexes[0], playerRival);
+        Unit target = _skill.BasicAttackExecutor.GetRival(targetsIndexes[0], playerRival);
         
-        _skill._attackExecutor.Execute(target, actualUnitPlaying, player, playerRival, targetsIndexes);
+        _skill.BasicAttackExecutor.Execute(target, actualUnitPlaying, player, playerRival, targetsIndexes);
         _skill.DiscountMP(actualUnitPlaying);
         
     }

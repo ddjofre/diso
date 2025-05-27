@@ -8,19 +8,19 @@ namespace Shin_Megami_Tensei.Actions.Factories;
 public class ActionManagerFactory
 {
     private readonly View _view;
-    private readonly Dictionary<TypeUnits, BaseActionManager> _managers;
+    private readonly Dictionary<TypeUnits, BaseActionManager2> _managers;
 
     public ActionManagerFactory(View view)
     {
         _view = view;
-        _managers = new Dictionary<TypeUnits, BaseActionManager>
+        _managers = new Dictionary<TypeUnits, BaseActionManager2>
         {
-            { TypeUnits.samurai, new SamuraiActionManager(_view) },
-            { TypeUnits.monster, new MonsterActionManager(_view) }
+            { TypeUnits.samurai, new SamuraiActionManager2(_view) },
+            { TypeUnits.monster, new MonsterActionManager2(_view) }
         };
     }
 
-    public BaseActionManager GetActionManager(Unit unit)
+    public BaseActionManager2 GetActionManager(Unit unit)
     {
         if (_managers.TryGetValue(unit.type, out var manager))
         {

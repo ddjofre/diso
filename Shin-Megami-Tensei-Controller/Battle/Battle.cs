@@ -1,6 +1,6 @@
 ﻿using Shin_Megami_Tensei_View;
+using Shin_Megami_Tensei.Actions;
 using Shin_Megami_Tensei.Actions.Factories;
-using Shin_Megami_Tensei.Battle.ActionManagers;
 using Shin_Megami_Tensei.GameComponents;
 using Shin_Megami_Tensei.Units;
 
@@ -103,14 +103,24 @@ public class Battle
         _battleInfoDisplay.ShowTurnsPLayer(actualPlayer);
         _battleInfoDisplay.ShowOrderUnitsPlay(actualPlayer);
         
-        BaseActionManager actionManager = _actionManagerFactory.GetActionManager(actualUnitPlaying);
+        //BaseActionManager actionManager = _actionManagerFactory.GetActionManager(actualUnitPlaying);
         
+        //actionManager.ChooseAction(actualUnitPlaying);
+        //actionManager.MakeAction(actualPlayer, rivalPlayer, actualUnitPlaying);
+        
+        
+        
+        
+        
+        // Create context with all needed data
+        var context = new ActionContext(actualPlayer, rivalPlayer, actualUnitPlaying);
+        
+        // Get appropriate action manager
+        var actionManager = _actionManagerFactory.GetActionManager(actualUnitPlaying);
+        
+        // Now just two method calls with better separation
         actionManager.ChooseAction(actualUnitPlaying);
-        actionManager.MakeAction(actualPlayer, rivalPlayer, actualUnitPlaying);
-        
-        
-        //_actionManager.ChooseAction(actualUnitPlaying);
-        //_actionManager.MakeAction(actualPlayer, rivalPlayer, actualUnitPlaying);
+        actionManager.MakeAction(context);  // Only one parameter!
         ActualizeOrderToUnits(actualPlayer);
         
     }

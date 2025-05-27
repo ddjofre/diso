@@ -6,12 +6,12 @@ namespace Shin_Megami_Tensei.Units.UnitComponents;
 public class Skill
 {
     private SkillInfo _skillInfo;
-    public AttackExecutor _attackExecutor;
+    public BasicAttackExecutor BasicAttackExecutor;
 
-    public Skill(SkillInfo skillInfo, AttackExecutor attackExecutor)
+    public Skill(SkillInfo skillInfo, BasicAttackExecutor basicAttackExecutor)
     {
         _skillInfo = skillInfo;
-        _attackExecutor = attackExecutor;
+        BasicAttackExecutor = basicAttackExecutor;
     }
 
     public void DiscountMP(Unit attacker)
