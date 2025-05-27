@@ -9,18 +9,17 @@ public abstract class BaseHeal
     protected View _view;
     protected TurnCalculator _turnCalculator;
     public int powerSkill;
-    public bool isHealInAbility;
     
     protected BaseHeal(View view, TurnCalculator turnCalculator)
     {
         _view = view;
         _turnCalculator = turnCalculator;
-        isHealInAbility = false;
         powerSkill = 0;
     }
     
     public abstract void ApplyHeal(Unit target);
     public abstract bool CanTargetUnit(Unit target);
     public abstract void GetHealMessage(Unit target, Unit attacker);
+    
     
 }

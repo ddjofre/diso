@@ -13,10 +13,13 @@ public class DrainAttackEffect : IAttackEffectHandler
     
     public bool ShouldShowAttackMessage() => true;
     
+    
     public string GetDamageMessage(Unit attacker, Unit target)
     {
         return null; // No damage message for drain
     }
     
     public Unit GetAffectedUnit(Unit attacker, Unit target) => target;
+    
+    
 }

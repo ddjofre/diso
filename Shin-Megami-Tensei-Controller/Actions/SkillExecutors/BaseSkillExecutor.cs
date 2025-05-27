@@ -2,6 +2,7 @@
 using Shin_Megami_Tensei.Actions.Factories;
 using Shin_Megami_Tensei.Battle;
 using Shin_Megami_Tensei.GameComponents;
+using Shin_Megami_Tensei.Skills;
 using Shin_Megami_Tensei.Units;
 using Shin_Megami_Tensei.Units.UnitComponents;
 
@@ -12,7 +13,7 @@ public abstract class BaseSkillExecutor
     protected View _view;
     protected TurnCalculator _turnCalculator;
     private SkillFactory _skillFactory;
-    public Skill _skill;
+    public SkillOfensive SkillOfensive;
 
     public BaseSkillExecutor(View view, TurnCalculator turnCalculator)
     {
@@ -22,11 +23,11 @@ public abstract class BaseSkillExecutor
     }
 
 
-    public Skill CreateSkill(SkillInfo skillInfo)
+    public SkillOfensive CreateSkill(SkillInfo skillInfo)
     {
-        Skill skill = _skillFactory.CreateSkillFromMap(skillInfo.name, skillInfo);
-        _skill = skill;
-        return skill;
+        SkillOfensive skillOfensive = _skillFactory.CreateSkillFromMap(skillInfo.name, skillInfo);
+        SkillOfensive = skillOfensive;
+        return skillOfensive;
     }
 
     public int ShowAvailableSkills(Unit actualUnitPlaying)

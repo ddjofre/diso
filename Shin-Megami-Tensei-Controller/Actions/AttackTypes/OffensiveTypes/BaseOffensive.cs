@@ -61,6 +61,7 @@ public abstract class BaseOffensive
         _view.WriteLine($"{affectedUnit.name} termina con HP:{affectedUnit.ActualHP}/{affectedUnit.stats.HP}");
     }
     
+    //cambiar los get en este nomrbe si es que no es get cuando cambies a view 
     private void GetDamageMessage(Unit attacker, Unit target)
     {
         var message = _currentEffectHandler.GetDamageMessage(attacker, target);

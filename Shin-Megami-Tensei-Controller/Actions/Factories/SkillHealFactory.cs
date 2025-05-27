@@ -34,7 +34,6 @@ public class SkillHealFactory
     }
     
     
-
     /*
     public Skill CreateSkillFromMap(string skillName, SkillInfo skillInfo)
     {
@@ -49,20 +48,23 @@ public class SkillHealFactory
     }
 
     
+    
+    
     private Skill CreateSkill(SkillInfo skillInfo, TypeHeal typeHeal, TypeTarget typeTarget)
     {
         var healAttack = _typeAttackFactory.CreateTypeHealAttack(typeHeal);
         healAttack.powerSkill = skillInfo.power;
 
         var target = _typeTargetFactory.CreateTypeTarget(typeTarget);
-
-        //aqui tengo el problema
-        var attackExecutor = new AttackExecutor(healAttack, target, _turnCalculator, _view);
+        
+        var attackExecutor = new HealAttackExecutor(healAttack, target, _turnCalculator, _view);
         
         return new Skill(skillInfo, attackExecutor);
         
     }
+    
     */
+    
     
     
     

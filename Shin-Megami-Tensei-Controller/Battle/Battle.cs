@@ -103,14 +103,6 @@ public class Battle
         _battleInfoDisplay.ShowTurnsPLayer(actualPlayer);
         _battleInfoDisplay.ShowOrderUnitsPlay(actualPlayer);
         
-        //BaseActionManager actionManager = _actionManagerFactory.GetActionManager(actualUnitPlaying);
-        
-        //actionManager.ChooseAction(actualUnitPlaying);
-        //actionManager.MakeAction(actualPlayer, rivalPlayer, actualUnitPlaying);
-        
-        
-        
-        
         
         // Create context with all needed data
         var context = new ActionContext(actualPlayer, rivalPlayer, actualUnitPlaying);
@@ -121,6 +113,7 @@ public class Battle
         // Now just two method calls with better separation
         actionManager.ChooseAction(actualUnitPlaying);
         actionManager.MakeAction(context);  // Only one parameter!
+        
         ActualizeOrderToUnits(actualPlayer);
         
     }

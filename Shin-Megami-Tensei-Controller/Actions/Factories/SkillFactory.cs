@@ -2,6 +2,7 @@
 using Shin_Megami_Tensei.Actions.AttacksExecutors;
 using Shin_Megami_Tensei.Battle;
 using Shin_Megami_Tensei.Enumerates;
+using Shin_Megami_Tensei.Skills;
 using Shin_Megami_Tensei.Units.UnitComponents;
 
 namespace Shin_Megami_Tensei.Actions.Factories;
@@ -63,7 +64,7 @@ public class SkillFactory
     
     
 
-    public Skill CreateSkillFromMap(string skillName, SkillInfo skillInfo)
+    public SkillOfensive CreateSkillFromMap(string skillName, SkillInfo skillInfo)
     {
         if (_skillMap.TryGetValue(skillName, out var types))
         {
@@ -75,7 +76,7 @@ public class SkillFactory
         }
     }
 
-    private Skill CreateSkill(SkillInfo skillInfo, TypeAttack typeAttack, TypeTarget typeTarget)
+    private SkillOfensive CreateSkill(SkillInfo skillInfo, TypeAttack typeAttack, TypeTarget typeTarget)
     {
         var attack = _typeAttackFactory.CreateTypeAttack(typeAttack);
         attack.powerSkill = skillInfo.power;
@@ -85,7 +86,7 @@ public class SkillFactory
 
         var attackExecutor = new BasicAttackExecutor(attack, target, _turnCalculator, _view);
         
-        return new Skill(skillInfo, attackExecutor);
+        return new SkillOfensive(skillInfo, attackExecutor);
     }
     
     
