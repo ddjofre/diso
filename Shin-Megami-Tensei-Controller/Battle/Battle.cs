@@ -1,9 +1,7 @@
 ﻿using Shin_Megami_Tensei_View;
 using Shin_Megami_Tensei.Actions.Factories;
 using Shin_Megami_Tensei.Battle.ActionManagers;
-using Shin_Megami_Tensei.Enumerates;
 using Shin_Megami_Tensei.GameComponents;
-using Shin_Megami_Tensei.GameComponents.PlayerComponents;
 using Shin_Megami_Tensei.Units;
 
 namespace Shin_Megami_Tensei.Battle;
@@ -16,7 +14,6 @@ public class Battle
     private Unit actualUnitPlaying;
 
     private UnitManager _unitManager;
-    private ActionManager _actionManager;
     private ActionManagerFactory _actionManagerFactory; 
     
     private Unit rivalChoosed;
@@ -26,7 +23,6 @@ public class Battle
         _view = view;
         _battleInfoDisplay = new BattleInfoDisplay(_view);
         _unitManager = new UnitManager(_view);
-        _actionManager = new ActionManager(_view);
         _actionManagerFactory = new ActionManagerFactory(_view); 
     }
     

@@ -2,37 +2,37 @@
 using Shin_Megami_Tensei.Battle;
 using Shin_Megami_Tensei.Enumerates;
 using Shin_Megami_Tensei.Units;
-namespace Shin_Megami_Tensei.Actions.AttackTypes;
 
-public class ForceAttack: BaseAttack
+namespace Shin_Megami_Tensei.Actions.AttackTypes.OfensiveTypes;
+
+public class ElecOffensive: BaseOffensive
 {
     private View _view;
     private DamageCalculator _damageCalculator;
     private TurnCalculator _turnCalculator;
     
-    
-    public ForceAttack(View view, TurnCalculator turnCalculator): base(view, turnCalculator)
+    public ElecOffensive(View view, TurnCalculator turnCalculator): base(view, turnCalculator)
     {
         _view = view;
         _turnCalculator = turnCalculator;
         _damageCalculator = new DamageCalculator();
-        typeAttack = TypeAttack.Force;
+        typeAttack = TypeAttack.Elec;
 
     }
     
     
     protected override void GetAttackMessage(Unit attacker, Unit target)
     {
-        _view.WriteLine($"{attacker.name} lanza viento a {target.name}");
+        _view.WriteLine($"{attacker.name} lanza electricidad a {target.name}");
     }
+    
     
     
     protected override string GetAffinity(Unit target)
     {
-        return target.affinity.Force;
+        return target.affinity.Elec;
     }
     
-   
     
     
 }

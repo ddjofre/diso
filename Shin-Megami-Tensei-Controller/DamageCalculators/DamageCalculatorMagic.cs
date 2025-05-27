@@ -20,4 +20,5 @@ public class DamageCalculatorMagic: BaseDamageCalculator
         attacker.damageRound = damage;
         return damage;
     }
+    
 }

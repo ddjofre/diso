@@ -1,6 +1,7 @@
 ﻿using Shin_Megami_Tensei_View;
 using Shin_Megami_Tensei.Actions.Affinities;
 using Shin_Megami_Tensei.Actions.AttackTypes;
+using Shin_Megami_Tensei.Actions.AttackTypes.OfensiveTypes;
 using Shin_Megami_Tensei.Actions.TargetTypes;
 using Shin_Megami_Tensei.Battle;
 using Shin_Megami_Tensei.Enumerates;
@@ -12,16 +13,16 @@ namespace Shin_Megami_Tensei.Actions;
 public abstract class Action
 {
     private BaseAffinity _affinity;
-    private BaseAttack _typeAttack;
+    private BaseOffensive _typeOffensive;
     private BaseTypeTarget _typeTarget;
     private TurnCalculator _turnCalculator;
     private View _view;
 
-    public Action(BaseAffinity affinity, BaseAttack typeAttack, BaseTypeTarget typeTarget, TurnCalculator turnCalculator, View view)
+    public Action(BaseAffinity affinity, BaseOffensive typeOffensive, BaseTypeTarget typeTarget, TurnCalculator turnCalculator, View view)
     {
         _affinity = affinity;
         _typeTarget = typeTarget;
-        _typeAttack = typeAttack;
+        _typeOffensive = typeOffensive;
         _turnCalculator = turnCalculator;
         _view = view;
         
@@ -49,8 +50,8 @@ public abstract class Action
     public void Execute(Unit actualUnitPlaying, Unit target, Player player)
     {
         //_typeAttack.MakeAttack(actualUnitPlaying,target);
-        _turnCalculator.CalculateTurnsAfterAttack(player, target, _typeAttack.typeAttack);
-        _typeAttack.ShowActionResults(actualUnitPlaying, target);
+        _turnCalculator.CalculateTurnsAfterAttack(player, target, _typeOffensive.typeAttack);
+        _typeOffensive.ShowActionResults(actualUnitPlaying, target);
     }
     
     

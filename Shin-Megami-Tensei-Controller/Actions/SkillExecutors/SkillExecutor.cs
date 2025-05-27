@@ -5,14 +5,14 @@ using Shin_Megami_Tensei.GameComponents;
 using Shin_Megami_Tensei.Units;
 using Shin_Megami_Tensei.Units.UnitComponents;
 
-namespace Shin_Megami_Tensei.Actions;
+namespace Shin_Megami_Tensei.Actions.SkillExecutors;
 
 public class SkillExecutor
 {
     private View _view;
     private TurnCalculator _turnCalculator;
     private SkillFactory _skillFactory;
-    private Skill _skill;
+    public Skill _skill;
 
     public SkillExecutor(View view, TurnCalculator turnCalculator)
     {
@@ -22,6 +22,14 @@ public class SkillExecutor
     }
     
     
+    
+    public Skill CreateSkill(SkillInfo skillInfo)
+    {
+        Skill skill = _skillFactory.CreateSkillFromMap(skillInfo.name, skillInfo);
+        _skill = skill;
+        return skill;
+    }
+
     public int ShowAvailableSkills(Unit actualUnitPlaying)
     {
         _view.WriteLine($"Seleccione una habilidad para que {actualUnitPlaying.name} use");
@@ -40,16 +48,7 @@ public class SkillExecutor
         _view.WriteLine($"{numVecesQueSeHizoPrint + 1}-Cancelar");
         return numVecesQueSeHizoPrint;
     }
-
     
-    public Skill CreateSkill(SkillInfo skillInfo)
-    {
-        Skill skill = _skillFactory.CreateFinalSkillFromMap(skillInfo.name, skillInfo);
-        _skill = skill;
-        return skill;
-    }
-
-
     public void ExecuteSkill(Unit actualUnitPlaying, Player playerRival, Player player)
     {
         _skill._attackExecutor.ShowAvailableTargets(playerRival, actualUnitPlaying);
@@ -57,14 +56,10 @@ public class SkillExecutor
                 
         Unit target = _skill._attackExecutor.GetRival(targetsIndexes[0], playerRival);
         
-        _skill._attackExecutor.Execute( target, actualUnitPlaying, player, playerRival, targetsIndexes);
+        _skill._attackExecutor.Execute(target, actualUnitPlaying, player, playerRival, targetsIndexes);
         _skill.DiscountMP(actualUnitPlaying);
         
     }
-    
-    
-    
-    
     
     
     

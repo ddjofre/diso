@@ -1,18 +1,16 @@
-﻿using Shin_Megami_Tensei.Enumerates;
-using Shin_Megami_Tensei_View;
+﻿using Shin_Megami_Tensei_View;
 using Shin_Megami_Tensei.Actions.Affinities;
 using Shin_Megami_Tensei.Actions.AttackEffects;
 using Shin_Megami_Tensei.Actions.Factories;
 using Shin_Megami_Tensei.Battle;
 using Shin_Megami_Tensei.DamageCalculators;
-using Shin_Megami_Tensei.GameComponents;
+using Shin_Megami_Tensei.Enumerates;
 using Shin_Megami_Tensei.Units;
 
+namespace Shin_Megami_Tensei.Actions.AttackTypes.OfensiveTypes;
 
-namespace Shin_Megami_Tensei.Actions.AttackTypes;
 
-
-public abstract class BaseAttack
+public abstract class BaseOffensive
 {
     private  View _view;
     private  TurnCalculator _turnCalculator;
@@ -22,7 +20,7 @@ public abstract class BaseAttack
     private IAttackEffectHandler _currentEffectHandler;
     
 
-    public BaseAttack(View view, TurnCalculator turnCalculator)
+    public BaseOffensive(View view, TurnCalculator turnCalculator)
     {
         _view = view;
         _turnCalculator = turnCalculator;

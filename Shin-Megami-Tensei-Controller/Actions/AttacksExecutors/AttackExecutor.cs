@@ -1,23 +1,23 @@
 ﻿using Shin_Megami_Tensei_View;
-using Shin_Megami_Tensei.Actions.AttackTypes;
+using Shin_Megami_Tensei.Actions.AttackTypes.OfensiveTypes;
 using Shin_Megami_Tensei.Actions.TargetTypes;
 using Shin_Megami_Tensei.Battle;
 using Shin_Megami_Tensei.GameComponents;
 using Shin_Megami_Tensei.Units;
 
-namespace Shin_Megami_Tensei.Actions;
+namespace Shin_Megami_Tensei.Actions.AttacksExecutors;
 
 public class AttackExecutor
 {
-    private BaseAttack _typeAttack;
+    private BaseOffensive _typeOffensive;
     private BaseTypeTarget _typeTarget;
     private TurnCalculator _turnCalculator;
     private View _view;
     
     
-    public AttackExecutor(BaseAttack baseAttack, BaseTypeTarget baseTypeTarget, TurnCalculator turnCalculator, View view)
+    public AttackExecutor(BaseOffensive baseOffensive, BaseTypeTarget baseTypeTarget, TurnCalculator turnCalculator, View view)
     {
-        _typeAttack = baseAttack;
+        _typeOffensive = baseOffensive;
         _typeTarget = baseTypeTarget;
         _turnCalculator = turnCalculator;
         _view = view;
@@ -28,6 +28,7 @@ public class AttackExecutor
     {
         return _typeTarget.GetTargets(playerRival);
     }
+    
     public void ShowAvailableTargets(Player playerRival, Unit actualUnitPlaying)
     {
         _typeTarget.ShowAvailablesTargets(playerRival, actualUnitPlaying);
@@ -46,11 +47,10 @@ public class AttackExecutor
         {
             Unit rival = GetRival(index, rivalPlayer);
             _view.WriteLine("----------------------------------------");
-            _typeAttack.MakeAttack(actualUnitPlaying, rival, _typeAttack.typeAttack);
+            _typeOffensive.MakeAttack(actualUnitPlaying, rival, _typeOffensive.typeAttack);
             
         }
     }
-    
     
     private void ShowActionTurnResults()
     {
@@ -60,12 +60,11 @@ public class AttackExecutor
         _view.WriteLine("----------------------------------------");
     }
     
-    
     public void Execute(Unit target, Unit actualUnitPlying, Player player, Player rivalPlayer, List<int> indexTargets)
     {
         //List<int> indexTargets = _typeTarget.GetTargets(rivalPlayer);
         MakeAttacks(indexTargets, actualUnitPlying, rivalPlayer);
-        _turnCalculator.CalculateTurnsAfterAttack(player, target, _typeAttack.typeAttack);
+        _turnCalculator.CalculateTurnsAfterAttack(player, target, _typeOffensive.typeAttack);
         ShowActionTurnResults();
     }
     

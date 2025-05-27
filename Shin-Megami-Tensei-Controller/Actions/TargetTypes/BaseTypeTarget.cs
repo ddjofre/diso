@@ -12,7 +12,32 @@ public abstract class BaseTypeTarget
     {
         targetType = typeTarget;
     }
-
+    
     public abstract void ShowAvailablesTargets(Player playerRival, Unit actualUnitPlaying);
+    
+    public abstract bool MeetCondition(Unit target);
+    
     public abstract List<int> GetTargets(Player playerRival);
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }

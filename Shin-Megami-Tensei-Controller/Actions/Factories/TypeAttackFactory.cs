@@ -1,6 +1,8 @@
 ﻿using Shin_Megami_Tensei.Actions.AttackTypes;
 using Shin_Megami_Tensei.Enumerates;
 using Shin_Megami_Tensei_View;
+using Shin_Megami_Tensei.Actions.AttackTypes.HealTypes;
+using Shin_Megami_Tensei.Actions.AttackTypes.OfensiveTypes;
 using Shin_Megami_Tensei.Battle;
 
 namespace Shin_Megami_Tensei.Actions.Factories;
@@ -19,37 +21,53 @@ public class TypeAttackFactory
     
     
     
-    public BaseAttack CreateTypeAttack(TypeAttack typeAttack)
+    public BaseOffensive CreateTypeAttack(TypeAttack typeAttack)
     {
         if (typeAttack == TypeAttack.Phys)
         {
-            return new PhysAttack(_view, _turnCalculator);
+            return new PhysOffensive(_view, _turnCalculator);
         }
         else if (typeAttack == TypeAttack.Gun)
         {
-            return new GunAttack(_view, _turnCalculator);
+            return new GunOffensive(_view, _turnCalculator);
         }
         else if (typeAttack == TypeAttack.Fire)
         {
-            return new FireAttack(_view, _turnCalculator);
+            return new FireOffensive(_view, _turnCalculator);
         }
         else if (typeAttack == TypeAttack.Ice)
         {
-            return new IceAttack(_view, _turnCalculator);
+            return new IceOffensive(_view, _turnCalculator);
         }
         else if (typeAttack == TypeAttack.Elec)
         {
-            return new ElecAttack(_view, _turnCalculator);
+            return new ElecOffensive(_view, _turnCalculator);
         }
         else if (typeAttack == TypeAttack.Force)
         {
-            return new ForceAttack(_view, _turnCalculator);
+            return new ForceOffensive(_view, _turnCalculator);
         }
         else
         {
             throw new NotImplementedException();
         }
         
+    }
+
+    public BaseHeal CreateTypeHealAttack(TypeHeal typeHeal)
+    {
+        if (typeHeal.Equals(TypeHeal.Dia))
+        {
+            return new DiaHeal(_view, _turnCalculator);
+        }
+        else if(typeHeal.Equals(TypeHeal.Recarm))
+        {
+            return new RecarmHeal(_view, _turnCalculator);
+        }
+        else
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }

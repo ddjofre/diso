@@ -1,4 +1,5 @@
 ﻿using Shin_Megami_Tensei_View;
+using Shin_Megami_Tensei.Actions.AttacksExecutors;
 using Shin_Megami_Tensei.Battle;
 using Shin_Megami_Tensei.Enumerates;
 using Shin_Megami_Tensei.Units.UnitComponents;
@@ -62,11 +63,11 @@ public class SkillFactory
     
     
 
-    public Skill CreateFinalSkillFromMap(string skillName, SkillInfo skillInfo)
+    public Skill CreateSkillFromMap(string skillName, SkillInfo skillInfo)
     {
         if (_skillMap.TryGetValue(skillName, out var types))
         {
-            return CreateFinalSkill(skillInfo, types.Item1, types.Item2);
+            return CreateSkill(skillInfo, types.Item1, types.Item2);
         }
         else
         {
@@ -74,7 +75,7 @@ public class SkillFactory
         }
     }
 
-    private Skill CreateFinalSkill(SkillInfo skillInfo, TypeAttack typeAttack, TypeTarget typeTarget)
+    private Skill CreateSkill(SkillInfo skillInfo, TypeAttack typeAttack, TypeTarget typeTarget)
     {
         var attack = _typeAttackFactory.CreateTypeAttack(typeAttack);
         attack.powerSkill = skillInfo.power;
@@ -86,6 +87,11 @@ public class SkillFactory
         
         return new Skill(skillInfo, attackExecutor);
     }
+    
+    
+    
+    
+    
     
     
 }

@@ -1,6 +1,9 @@
 ﻿using Shin_Megami_Tensei_View;
 using Shin_Megami_Tensei.Actions;
+using Shin_Megami_Tensei.Actions.AttacksExecutors;
 using Shin_Megami_Tensei.Actions.AttackTypes;
+using Shin_Megami_Tensei.Actions.AttackTypes.OfensiveTypes;
+using Shin_Megami_Tensei.Actions.SkillExecutors;
 using Shin_Megami_Tensei.Actions.TargetTypes;
 using Shin_Megami_Tensei.Enumerates;
 using Shin_Megami_Tensei.GameComponents;
@@ -35,7 +38,6 @@ public abstract class BaseActionManager
         return actionChosen;
     }
     
-    // Shared methods
     protected void HandlePassTurn(Player player)
     {
         _turnCalculator.CalculateTurnAfterSummonOrPass(player);
@@ -65,7 +67,7 @@ public abstract class BaseActionManager
 
         SkillInfo skillInfo = actualUnitPlaying.skillInfo[optionUser - 1];
 
-        Skill skill = skillExecutor.CreateSkill(skillInfo);
+        skillExecutor.CreateSkill(skillInfo);
         
         skillExecutor.ExecuteSkill(actualUnitPlaying, playerRival, player);
     }
@@ -78,9 +80,9 @@ public abstract class BaseActionManager
     
     protected AttackExecutor GetPhysAttackExecutor()
     {
-        BaseAttack attackPhys = new PhysAttack(_view, _turnCalculator);
+        BaseOffensive offensivePhys = new PhysOffensive(_view, _turnCalculator);
         BaseTypeTarget singleTypeTarget = new SingleTypeTarget(_view, TypeTarget.Single);
-        return new AttackExecutor(attackPhys, singleTypeTarget, _turnCalculator, _view);
+        return new AttackExecutor(offensivePhys, singleTypeTarget, _turnCalculator, _view);
     }
     
     protected void HandleAttack(Player player, Player playerRival, Unit actualUnitPlaying, AttackExecutor actionExecutor)

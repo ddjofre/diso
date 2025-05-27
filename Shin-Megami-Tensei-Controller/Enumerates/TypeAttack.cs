@@ -8,5 +8,8 @@ public enum TypeAttack
     Ice,
     Elec,
     Force,
+    Heal,
+    Light,
+    Dark
     
 }

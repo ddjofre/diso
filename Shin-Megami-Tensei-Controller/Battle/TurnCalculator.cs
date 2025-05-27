@@ -145,6 +145,21 @@ public class TurnCalculator
         }
     }
     
+    public void CalculateTurnAfterHeal(Player player)
+    {
+        // Non-offensive skills consume turns like this
+        if (player.BlinkingTurns == 0)
+        {
+            player.FullTurns -= 1;
+            FullTurnsConsumed += 1;
+        }
+        else
+        {
+            player.BlinkingTurns -= 1;
+            BlinkingTurnsConsumed += 1;
+        }
+    }
+    
     public void ResetCalculator()
     {
         BlinkingTurnsConsumed = 0;

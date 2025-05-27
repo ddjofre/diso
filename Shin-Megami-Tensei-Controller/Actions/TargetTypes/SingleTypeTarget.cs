@@ -28,7 +28,7 @@ public class SingleTypeTarget: BaseTypeTarget
 
         foreach (var unit in playerRival.Team.UnitsInGame)
         {
-            if (unit != null && unit.ActualHP != 0)
+            if (unit != null && MeetCondition(unit))
             {
                 mapping.Add((displayNumber, unitIndex));
                 displayNumber++;
@@ -49,7 +49,7 @@ public class SingleTypeTarget: BaseTypeTarget
         return userInput == maxDisplayNumber;
     }
     
-    private int ChooseTarget(Player playerRival)
+    protected int ChooseTarget(Player playerRival)
     {
         var selectableTargets = BuildTargetIndex(playerRival);
         
@@ -63,8 +63,13 @@ public class SingleTypeTarget: BaseTypeTarget
         return GetUnitIndexFromChoice(selectableTargets, userInput);
     }
 
+
     
-    
+    public override bool MeetCondition(Unit target)
+    {
+        return target.ActualHP != 0;
+    }
+
     public override void ShowAvailablesTargets(Player playerRival, Unit actualUnitPlaying)
     {
         _view.WriteLine($"Seleccione un objetivo para {actualUnitPlaying.name}");
@@ -72,7 +77,7 @@ public class SingleTypeTarget: BaseTypeTarget
         int displayNumber = 1;
         foreach (var unit in playerRival.Team.UnitsInGame)
         {
-            if (unit != null && unit.ActualHP != 0)
+            if (unit != null && MeetCondition(unit))
             {
                 _view.WriteLine($"{displayNumber}-{unit.name} HP:{unit.ActualHP}/{unit.stats.HP} MP:{unit.ActualMP}/{unit.stats.MP}");
                 displayNumber += 1;
@@ -80,8 +85,9 @@ public class SingleTypeTarget: BaseTypeTarget
         }
         _view.WriteLine($"{displayNumber}-Cancelar");
     }
-
     
+    
+    //esto quiza tenga que encapsularlo
     public override List<int> GetTargets(Player playerRival)
     {
         List<int> targets = new List<int>();

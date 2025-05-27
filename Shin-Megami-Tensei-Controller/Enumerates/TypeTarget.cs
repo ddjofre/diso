@@ -2,5 +2,7 @@
 
 public enum TypeTarget
 {
-    Single
+    Single,
+    Ally, 
+    All
 }

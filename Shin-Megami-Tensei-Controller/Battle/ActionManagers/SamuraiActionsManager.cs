@@ -1,6 +1,8 @@
 ﻿using Shin_Megami_Tensei_View;
 using Shin_Megami_Tensei.Actions;
+using Shin_Megami_Tensei.Actions.AttacksExecutors;
 using Shin_Megami_Tensei.Actions.AttackTypes;
+using Shin_Megami_Tensei.Actions.AttackTypes.OfensiveTypes;
 using Shin_Megami_Tensei.Actions.TargetTypes;
 using Shin_Megami_Tensei.Enumerates;
 using Shin_Megami_Tensei.GameComponents;
@@ -63,9 +65,9 @@ public class SamuraiActionManager : BaseActionManager
 
     private AttackExecutor GetGunAttackExecutor()
     {
-        BaseAttack attackGun = new GunAttack(_view, _turnCalculator);
+        BaseOffensive offensiveGun = new GunOffensive(_view, _turnCalculator);
         BaseTypeTarget singleTypeTarget = new SingleTypeTarget(_view, TypeTarget.Single);
-        return new AttackExecutor(attackGun, singleTypeTarget, _turnCalculator, _view);
+        return new AttackExecutor(offensiveGun, singleTypeTarget, _turnCalculator, _view);
     }
 
     protected override void PerformSummon(Player player, Player playerRival, Unit actualUnitPlaying)

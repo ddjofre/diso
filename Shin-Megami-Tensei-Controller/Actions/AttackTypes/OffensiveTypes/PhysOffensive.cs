@@ -1,16 +1,15 @@
 ﻿using Shin_Megami_Tensei_View;
 using Shin_Megami_Tensei.Battle;
 using Shin_Megami_Tensei.Enumerates;
-using Shin_Megami_Tensei.GameComponents;
 using Shin_Megami_Tensei.Units;
 
-namespace Shin_Megami_Tensei.Actions.AttackTypes;
+namespace Shin_Megami_Tensei.Actions.AttackTypes.OfensiveTypes;
 
-public class PhysAttack: BaseAttack
+public class PhysOffensive: BaseOffensive
 {
     private View _view;
     
-    public PhysAttack(View view, TurnCalculator turnCalculator): base(view, turnCalculator)
+    public PhysOffensive(View view, TurnCalculator turnCalculator): base(view, turnCalculator)
     {
         _view = view;
         typeAttack = TypeAttack.Phys;
