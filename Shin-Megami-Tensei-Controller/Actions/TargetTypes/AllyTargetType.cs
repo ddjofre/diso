@@ -18,6 +18,8 @@ public class AllyTargetType: SingleTypeTarget
         targetType = typeTarget;
         _healType = healType;
     }
+    
+    
     public override bool MeetCondition(Unit target)
     {
         return _healType.CanTargetUnit(target);

@@ -20,5 +20,6 @@ public class Unit
     public bool DoesSurrender = false;
     public bool HasBeenIvoked = false;
     public bool HasBeenReplaceInInvoke = false;
+    public bool HasBeenRecarm = false;
     
 }

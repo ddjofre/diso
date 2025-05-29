@@ -104,12 +104,6 @@ public abstract class BaseOffensive
         GetDamageMessage(actualUnitPlaying, target);
         GetFinalHpMessage(actualUnitPlaying, target);
         
-        /*
-        _view.WriteLine("----------------------------------------");
-        _view.WriteLine($"Se han consumido {_turnCalculator.FullTurnsConsumed} Full Turn(s) y {_turnCalculator.BlinkingTurnsConsumed} Blinking Turn(s)");
-        _view.WriteLine($"Se han obtenido {_turnCalculator.BlinkingTurnsObtained} Blinking Turn(s)");
-        _view.WriteLine("----------------------------------------");
-        */
     }
     
     protected abstract void GetAttackMessage(Unit attacker, Unit target);

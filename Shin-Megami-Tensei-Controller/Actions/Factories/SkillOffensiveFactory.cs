@@ -7,7 +7,7 @@ using Shin_Megami_Tensei.Units.UnitComponents;
 
 namespace Shin_Megami_Tensei.Actions.Factories;
 
-public class SkillFactory
+public class SkillOffensiveFactory
 {
     private View _view;
     private TurnCalculator _turnCalculator;
@@ -15,7 +15,7 @@ public class SkillFactory
     private TypeTargetFactory _typeTargetFactory;
     private Dictionary<string, (TypeAttack, TypeTarget)> _skillMap;
 
-    public SkillFactory(View view, TurnCalculator turnCalculator)
+    public SkillOffensiveFactory(View view, TurnCalculator turnCalculator)
     {
         _view = view;
         _turnCalculator = turnCalculator;

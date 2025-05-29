@@ -43,14 +43,14 @@ public class HealAttackExecutor
         return rivalChosen;
     }
     
-    private void MakeAttacks(List<int> indexUnitsToAttack, Unit actualUnitPlaying, Player rivalPlayer)
+    private void MakeAttacks(List<int> indexUnitsToAttack, Player player, Unit actualUnitPlaying)
     {
         foreach (var index in indexUnitsToAttack)
         {
-            Unit rival = GetRival(index, rivalPlayer);
+            Unit target = GetRival(index, player);
             _view.WriteLine("----------------------------------------");
-            _typeHeal.ApplyHeal(rival);
-            
+            _typeHeal.ApplyHeal(target);
+            _typeHeal.ShowActionResults(actualUnitPlaying, target);
         }
     }
     
@@ -62,9 +62,9 @@ public class HealAttackExecutor
         _view.WriteLine("----------------------------------------");
     }
     
-    public void Execute( Unit actualUnitPlying, Player player, Player rivalPlayer, List<int> indexTargets)
+    public void Execute( Player player, List<int> indexTargets, Unit actualUnitPlaying)
     {
-        MakeAttacks(indexTargets, actualUnitPlying, rivalPlayer);
+        MakeAttacks(indexTargets, player, actualUnitPlaying);
         _turnCalculator.CalculateTurnAfterHeal(player);
         ShowActionTurnResults();
     }

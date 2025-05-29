@@ -43,7 +43,7 @@ public class BattleInfoDisplay
 
         for (int i = 0; i < 3; i++)
         {
-            if(team.UnitsInGame[i+1] != null && team.UnitsInGame[i+1].ActualHP!=0)
+            if(team.UnitsInGame[i+1] != null && team.UnitsInGame[i+1].ActualHP!=0 && team.UnitsInGame[i+1].HasBeenRecarm!= true)
             {
                 Unit monster = team.UnitsInGame[i + 1];
                 _view.WriteLine($"{positions[i]}-{monster.name} HP:{monster.ActualHP}/{monster.stats.HP} MP:{monster.ActualMP}/{monster.stats.MP}");

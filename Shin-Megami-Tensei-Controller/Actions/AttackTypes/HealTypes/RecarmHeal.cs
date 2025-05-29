@@ -13,13 +13,14 @@ public class RecarmHeal: BaseHeal
 
     private int CalculateHealAmount(Unit target)
     {
-        int hp = Convert.ToInt32(target.stats.HP * (powerSkill / 100));
-        return hp;
+        int healAmount = (int)Math.Floor(target.stats.HP * (powerSkill / 100.0));
+        return healAmount;
     }
     
     public override void ApplyHeal(Unit target)
     {
         target.ActualHP = CalculateHealAmount(target);
+        target.HasBeenRecarm = true;
     }
     
     public override bool CanTargetUnit(Unit target)
@@ -28,7 +29,7 @@ public class RecarmHeal: BaseHeal
     }
 
 
-    public override void GetHealMessage(Unit target, Unit attacker)
+    public override void GetHealMessage(Unit attacker, Unit target)
     {
         int healAmount = CalculateHealAmount(target);
         _view.WriteLine($"{attacker.name} revive a {target.name}");

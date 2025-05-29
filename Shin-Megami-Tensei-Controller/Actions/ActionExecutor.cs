@@ -5,6 +5,7 @@ using Shin_Megami_Tensei.Actions.SkillExecutors;
 using Shin_Megami_Tensei.Actions.TargetTypes;
 using Shin_Megami_Tensei.Battle;
 using Shin_Megami_Tensei.Enumerates;
+using Shin_Megami_Tensei.Skills;
 
 namespace Shin_Megami_Tensei.Actions;
 public class ActionExecutor
@@ -29,7 +30,8 @@ public class ActionExecutor
         var attackExecutor = CreateGunAttackExecutor();
         ExecuteAttack(context, attackExecutor);
     }
-
+    
+    
     public void ExecuteSkill(ActionContext context)
     {
         var skillExecutor = new SkillExecutor(_view, _turnCalculator);
@@ -44,8 +46,9 @@ public class ActionExecutor
         }
 
         var skillInfo = context.actualUnitPlaying.skillInfo[optionUser - 1];
-        skillExecutor.CreateSkill(skillInfo);
-        skillExecutor.ExecuteSkill(context.actualUnitPlaying, context.opponentPlayer, context.activePlayer);
+        Skill skill = skillExecutor.CreateSkill(skillInfo);
+        
+        skill.Execute(context.actualUnitPlaying, context.opponentPlayer, context.activePlayer);
     }
 
     public void ExecutePass(ActionContext context)

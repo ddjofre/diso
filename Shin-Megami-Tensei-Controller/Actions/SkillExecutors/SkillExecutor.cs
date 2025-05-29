@@ -8,27 +8,17 @@ using Shin_Megami_Tensei.Units.UnitComponents;
 
 namespace Shin_Megami_Tensei.Actions.SkillExecutors;
 
+
 public class SkillExecutor
 {
+    
     private View _view;
     private TurnCalculator _turnCalculator;
-    private SkillFactory _skillFactory;
-    public SkillOfensive SkillOfensive;
 
     public SkillExecutor(View view, TurnCalculator turnCalculator)
     {
         _view = view;
         _turnCalculator = turnCalculator;
-        _skillFactory = new SkillFactory(_view, _turnCalculator );
-    }
-    
-    
-    
-    public SkillOfensive CreateSkill(SkillInfo skillInfo)
-    {
-        SkillOfensive skillOfensive = _skillFactory.CreateSkillFromMap(skillInfo.name, skillInfo);
-        SkillOfensive = skillOfensive;
-        return skillOfensive;
     }
 
     public int ShowAvailableSkills(Unit actualUnitPlaying)
@@ -49,19 +39,26 @@ public class SkillExecutor
         _view.WriteLine($"{numVecesQueSeHizoPrint + 1}-Cancelar");
         return numVecesQueSeHizoPrint;
     }
-    
-    public void ExecuteSkill(Unit actualUnitPlaying, Player playerRival, Player player)
+
+    public Skill CreateSkill(SkillInfo skillInfo)
     {
-        SkillOfensive.BasicAttackExecutor.ShowAvailableTargets(playerRival, actualUnitPlaying);
-        List<int> targetsIndexes = SkillOfensive.BasicAttackExecutor.GetTargets(playerRival);
-                
-        Unit target = SkillOfensive.BasicAttackExecutor.GetRival(targetsIndexes[0], playerRival);
+        if (new[] { "Phys", "Elec", "Fire" , "Force", "Gun", "Ice"}.Contains(skillInfo.type))
+        {
+            SkillOffensiveFactory skillOffensiveFactory = new SkillOffensiveFactory(_view, _turnCalculator);
+            return skillOffensiveFactory.CreateSkillFromMap(skillInfo.name, skillInfo);
+        }
         
-        SkillOfensive.BasicAttackExecutor.Execute(target, actualUnitPlaying, player, playerRival, targetsIndexes);
-        SkillOfensive.DiscountMP(actualUnitPlaying);
+        else if(skillInfo.type.Equals("Heal"))
+        {
+            SkillHealFactory skillHealFactory = new SkillHealFactory(_view, _turnCalculator);
+            return skillHealFactory.CreateSkillFromMap(skillInfo.name, skillInfo);
+        }
         
+        else
+        {
+            throw new NotImplementedException();
+        }
+            
     }
-    
-    
     
 }
