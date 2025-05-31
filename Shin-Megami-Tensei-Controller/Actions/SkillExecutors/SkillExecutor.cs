@@ -1,4 +1,5 @@
 ﻿using Shin_Megami_Tensei_View;
+using Shin_Megami_Tensei.Actions.AttacksExecutors;
 using Shin_Megami_Tensei.Actions.Factories;
 using Shin_Megami_Tensei.Battle;
 using Shin_Megami_Tensei.GameComponents;
@@ -40,6 +41,7 @@ public class SkillExecutor
         return numVecesQueSeHizoPrint;
     }
 
+    // En SkillExecutor.cs, método CreateSkill
     public Skill CreateSkill(SkillInfo skillInfo)
     {
         if (new[] { "Phys", "Elec", "Fire" , "Force", "Gun", "Ice"}.Contains(skillInfo.type))
@@ -54,11 +56,21 @@ public class SkillExecutor
             return skillHealFactory.CreateSkillFromMap(skillInfo.name, skillInfo);
         }
         
+        else if(skillInfo.type.Equals("Special"))
+        {
+            // Por ahora solo Sabbatma es Special
+            if (skillInfo.name == "Sabbatma")
+            {
+                var sabbatmaExecutor = new SabbatmaExecutor(_view, _turnCalculator);
+                return new SkillSpecial(skillInfo, sabbatmaExecutor);
+            }
+            throw new NotImplementedException($"Special skill {skillInfo.name} not implemented");
+        }
+        
         else
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException($"Skill type {skillInfo.type} not implemented");
         }
-            
     }
     
 }

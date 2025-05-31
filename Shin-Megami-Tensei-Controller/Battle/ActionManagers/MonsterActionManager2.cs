@@ -42,21 +42,31 @@ public class MonsterActionManager2 : BaseActionManager2
     }
 
 
+    
+    
     protected override void PerformSummon(ActionContext context)
     {
         var invoke = new Invoke(_view, _turnCalculator);
-        int numPrints = invoke.ShowUnitsInReserve(context.activePlayer.Team);
-        int unitToInvoke = invoke.GetUserInput();
+        List<int> validIndexes = invoke.ShowUnitsInReserve(context.activePlayer.Team);
+        int userInput = invoke.GetUserInput();
         
-        if (numPrints == 1)
+        if (validIndexes.Count == 0)
         {
             _view.WriteLine("----------------------------------------");
             throw new OperationCanceledException();
         }
         
         _view.WriteLine("----------------------------------------");
+        
+        int realIndexToInvoke = invoke.GetRealIndexFromUserInput(userInput, validIndexes);
+        
+        if (realIndexToInvoke == -1)
+        {
+            throw new OperationCanceledException();
+        }
+    
         int unitToRemoveFromBoard = invoke.GetActualUnitIndex(context.activePlayer.Team, context.actualUnitPlaying);
-        invoke.MakeInvoke(context.activePlayer.Team, unitToInvoke, unitToRemoveFromBoard);
+        invoke.MakeInvoke(context.activePlayer, realIndexToInvoke, unitToRemoveFromBoard);
         _view.WriteLine("----------------------------------------");
     }
     

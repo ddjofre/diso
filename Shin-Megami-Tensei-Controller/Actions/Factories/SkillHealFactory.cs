@@ -32,16 +32,22 @@ public class SkillHealFactory
         };
     }
 
-    public SkillHeal CreateSkillFromMap(string skillName, SkillInfo skillInfo)
+    public Skill CreateSkillFromMap(string skillName, SkillInfo skillInfo)
     {
+        // Caso especial para Invitation
+        if (skillName == "Invitation")
+        {
+            var invitationExecutor = new InvitationExecutor(_view, _turnCalculator);
+            return new SkillHealInvitation(skillInfo, invitationExecutor);
+        }
+    
+        // Casos normales de Heal
         if (_skillMap.TryGetValue(skillName, out var types))
         {
             return CreateSkill(skillInfo, types.Item1, types.Item2);
         }
-        else
-        {
-            throw new KeyNotFoundException($"Heal Skill {skillName} not found");
-        }
+    
+        throw new KeyNotFoundException($"Heal Skill {skillName} not found");
     }
 
     private SkillHeal CreateSkill(SkillInfo skillInfo, TypeHeal typeHeal, TypeTarget typeTarget)

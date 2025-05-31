@@ -9,35 +9,19 @@ namespace Shin_Megami_Tensei.Actions;
 public class Invoke
 {
     private View _view;
-    private Battle.DamageCalculator _damageCalculator;
+    private DamageCalculator _damageCalculator;
     private TurnCalculator _turnCalculator;
+    private UnitManager _unitManager;
     
     public Invoke(View view, TurnCalculator turnCalculator)
     {
         _view = view;
         _turnCalculator = turnCalculator;
         _damageCalculator = new DamageCalculator();
+        _unitManager = new UnitManager(_view);
         
     }
-
-    public int ShowUnitsInReserve(Team team)
-    {
-        _view.WriteLine("Seleccione un monstruo para invocar");
-        int contador = 1;
-        
-            foreach (var unit in team.UnitsInReserve)
-            {
-                if (unit != null)
-                {
-                    _view.WriteLine($"{contador}-{unit.name} HP:{unit.ActualHP}/{unit.stats.HP} MP:{unit.ActualMP}/{unit.stats.MP}");
-                    contador++;
-                }
-            }
-       
-        _view.WriteLine($"{contador}-Cancelar");
-        return contador;
-
-    }
+    
     
     public void ShowAvailablePositionsForInvokeMonster(Team team)
     {
@@ -67,9 +51,8 @@ public class Invoke
     {
         return Convert.ToInt32(_view.ReadLine());
     }
-
-
-    public void OrderUnitsInReserve(Team team)
+    
+    public void OrderUnitsInReserveByCanonicalMonsterList(Team team)
     {
         JsonHandler jsonHandler = new JsonHandler();
         List<Unit> monsters = jsonHandler.JsonDeserializerUnits("data/monsters.json");
@@ -111,29 +94,91 @@ public class Invoke
         }
     }
     
-    
-    public void MakeInvoke(Team team, int indexMonsterToInvoke, int IndexMonsterToReplace)
+    public void ChangeParameterHasBeenInvokeToFalseInMonsterList(Team team, Unit monster)
     {
-        
-        Unit monsterToReplace = team.UnitsInGame[IndexMonsterToReplace];
-        Unit monsterToInvoke = team.UnitsInReserve[indexMonsterToInvoke - 1];
-
-        monsterToInvoke.HasBeenIvoked = true;
-        monsterToReplace.HasBeenReplaceInInvoke = true;
-        
-        team.UnitsInGame[IndexMonsterToReplace] = monsterToInvoke;
-        team.UnitsInReserve[indexMonsterToInvoke - 1] = monsterToReplace;
-        
-        ChangeParameterHasBeenInvokeInMonsterList(team, monsterToInvoke);
-        ChangeParameterHasBeenReplaceInMonsterList(team, monsterToReplace);
-        
-        OrderUnitsInReserve(team);
-        
-        
-        _view.WriteLine($"{monsterToInvoke.name} ha sido invocado");
-        
-        
+        foreach (var unit in team.Monsters)
+        {
+            if (monster.name == unit.name)
+            {
+                unit.HasBeenIvoked = false;
+            }
+        }
     }
+    
+    public void ChangeParameterHasBeenReplaceToFalseInMonsterList(Team team, Unit monster)
+    {
+        foreach (var unit in team.Monsters)
+        {
+            if (monster.name == unit.name)
+            {
+                unit.HasBeenReplaceInInvoke = false;
+            }
+        }
+    }
+    
+    
+    public List<int> ShowUnitsInReserve(Team team)
+{
+    _view.WriteLine("Seleccione un monstruo para invocar");
+    
+    // Lista para mapear números mostrados -> índices reales
+    List<int> validIndexes = new List<int>();
+    int displayNumber = 1;
+    
+    for (int i = 0; i < team.UnitsInReserve.Length; i++)
+    {
+        var unit = team.UnitsInReserve[i];
+        if (unit != null && unit.ActualHP > 0) // Solo monstruos vivos
+        {
+            _view.WriteLine($"{displayNumber}-{unit.name} HP:{unit.ActualHP}/{unit.stats.HP} MP:{unit.ActualMP}/{unit.stats.MP}");
+            validIndexes.Add(i); // Guardar el índice real
+            displayNumber++;
+        }
+    }
+   
+    _view.WriteLine($"{displayNumber}-Cancelar");
+    return validIndexes; // Devolver el mapeo
+}
+
+// Nuevo método para obtener el índice real basado en el input del usuario
+public int GetRealIndexFromUserInput(int userInput, List<int> validIndexes)
+{
+    if (userInput >= 1 && userInput <= validIndexes.Count)
+    {
+        return validIndexes[userInput - 1]; // Convertir número mostrado a índice real
+    }
+    return -1; // Cancelar o input inválido
+}
+
+// Método MakeInvoke actualizado para usar el índice real
+public void MakeInvoke(Player player, int realIndexMonsterToInvoke, int IndexMonsterToReplace)
+{
+    Team team = player.Team;
+    Unit monsterToReplace = team.UnitsInGame[IndexMonsterToReplace];
+    Unit monsterToInvoke = team.UnitsInReserve[realIndexMonsterToInvoke]; // Usar índice real
+
+    // Verificar si es un puesto vacío ANTES de hacer el reemplazo
+    bool isEmptyPosition = (monsterToReplace.ActualHP == 0);
+
+    monsterToInvoke.HasBeenIvoked = true;
+    monsterToReplace.HasBeenReplaceInInvoke = true;
+    
+    team.UnitsInGame[IndexMonsterToReplace] = monsterToInvoke;
+    team.UnitsInReserve[realIndexMonsterToInvoke] = monsterToReplace; // Usar índice real
+    
+    ChangeParameterHasBeenInvokeInMonsterList(team, monsterToInvoke);
+    ChangeParameterHasBeenReplaceInMonsterList(team, monsterToReplace);
+    
+    OrderUnitsInReserveByCanonicalMonsterList(team);
+    
+    // Si era un puesto vacío, agregar el índice al final del orden
+    if (isEmptyPosition && !team.indexesOrderAttack.Contains(IndexMonsterToReplace))
+    {
+        team.indexesOrderAttack.Add(IndexMonsterToReplace);
+    }
+    
+    _view.WriteLine($"{monsterToInvoke.name} ha sido invocado");
+}
 
     public int GetActualUnitIndex(Team team, Unit actualUnitPlaying)
     {

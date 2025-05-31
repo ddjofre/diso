@@ -48,24 +48,36 @@ public class SamuraiActionManager2 : BaseActionManager2
         }
     }
 
-
+    
+    
     protected override void PerformSummon(ActionContext context)
     {
         var invoke = new Invoke(_view, _turnCalculator);
-        int numPrints = invoke.ShowUnitsInReserve(context.activePlayer.Team);
-        int unitToInvoke = invoke.GetUserInput();
-
-        if (numPrints == 1)
+        List<int> validIndexes = invoke.ShowUnitsInReserve(context.activePlayer.Team);
+        int userInput = invoke.GetUserInput();
+        
+        if (validIndexes.Count == 0)
         {
             _view.WriteLine("----------------------------------------");
             throw new OperationCanceledException();
         }
-
+        
         _view.WriteLine("----------------------------------------");
+        
+        int realIndexToInvoke = invoke.GetRealIndexFromUserInput(userInput, validIndexes);
+        
+        if (realIndexToInvoke == -1)
+        {
+            throw new OperationCanceledException();
+        }
+
         invoke.ShowAvailablePositionsForInvokeMonster(context.activePlayer.Team);
         int unitToRemoveFromBoard = invoke.GetUserInput();
         _view.WriteLine("----------------------------------------");
-        invoke.MakeInvoke(context.activePlayer.Team, unitToInvoke, unitToRemoveFromBoard);
+    
+        invoke.MakeInvoke(context.activePlayer, realIndexToInvoke, unitToRemoveFromBoard);
         _view.WriteLine("----------------------------------------");
     }
+
+    
 }

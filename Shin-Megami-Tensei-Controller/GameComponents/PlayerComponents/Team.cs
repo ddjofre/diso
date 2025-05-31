@@ -11,6 +11,7 @@ public class Team
     public Unit[] UnitsInGame;
     public Unit[] UnitsInReserve;
     public List<int> indexesOrderAttack;
+    public bool NeedsOrderRecalculation;
 
     
     public Team(List<Unit> team)
@@ -21,5 +22,7 @@ public class Team
         this.UnitsInGame = new Unit[4];
         this.UnitsInReserve = new Unit[4];
         this.indexesOrderAttack = new List<int>();
+        this.NeedsOrderRecalculation = false;
+        
     }
 }
