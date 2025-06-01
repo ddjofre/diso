@@ -105,7 +105,7 @@ public class InvitationExecutor
         if (wasUnitDead)
         {
             invokedUnit.ActualHP = invokedUnit.stats.HP;
-            //4invokedUnit.HasBeenRecarm = true;
+            //invokedUnit.HasBeenRecarm = true;
             _view.WriteLine($"{actualUnitPlaying.name} revive a {invokedUnit.name}");
             _view.WriteLine($"{invokedUnit.name} recibe {invokedUnit.stats.HP} de HP");
             _view.WriteLine($"{invokedUnit.name} termina con HP:{invokedUnit.ActualHP}/{invokedUnit.stats.HP}");
