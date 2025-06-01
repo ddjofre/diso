@@ -1,5 +1,6 @@
 ﻿using Shin_Megami_Tensei.GameComponents.PlayerComponents;
 using Shin_Megami_Tensei_View;
+using Shin_Megami_Tensei.Actions.Invocations;
 using Shin_Megami_Tensei.Battle;
 using Shin_Megami_Tensei.GameComponents;
 using Shin_Megami_Tensei.Units;
@@ -11,12 +12,13 @@ public class SabbatmaExecutor
     private readonly View _view;
     private readonly TurnCalculator _turnCalculator;
     private readonly Invoke _invoke;
+    private readonly ActionExecutor _actionsExecutor;
 
     public SabbatmaExecutor(View view, TurnCalculator turnCalculator)
     {
         _view = view;
         _turnCalculator = turnCalculator;
-        _invoke = new Invoke(view, turnCalculator);
+        _invoke = new Invoke(view);
     }
 
     public void Execute(Unit actualUnitPlaying, Player player)

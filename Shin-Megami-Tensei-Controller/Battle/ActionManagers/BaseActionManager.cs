@@ -4,14 +4,14 @@ using Shin_Megami_Tensei.Units;
 
 namespace Shin_Megami_Tensei.Battle.ActionManagers;
 
-public abstract class BaseActionManager2
+public abstract class BaseActionManager
 {
     protected View _view;
     protected TurnCalculator _turnCalculator;
     protected ActionExecutor _actionExecutor;
     protected int _actionChosen;
 
-    protected BaseActionManager2(View view)
+    protected BaseActionManager(View view)
     {
         _view = view;
         _turnCalculator = new TurnCalculator();
@@ -50,5 +50,4 @@ public abstract class BaseActionManager2
 
     protected abstract void ShowPossibleActions(Unit actualUnitPlaying);
     protected abstract void ExecuteChosenAction(ActionContext context);
-    protected abstract void PerformSummon(ActionContext context);
 }

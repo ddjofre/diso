@@ -1,12 +1,13 @@
 ﻿using Shin_Megami_Tensei_View;
 using Shin_Megami_Tensei.Actions;
+using Shin_Megami_Tensei.Actions.Invocations;
 using Shin_Megami_Tensei.Units;
 
 namespace Shin_Megami_Tensei.Battle.ActionManagers;
 
-public class SamuraiActionManager2 : BaseActionManager2
+public class SamuraiActionManager : BaseActionManager
 {
-    public SamuraiActionManager2(View view) : base(view) { }
+    public SamuraiActionManager(View view) : base(view) { }
 
     protected override void ShowPossibleActions(Unit actualUnitPlaying)
     {
@@ -34,7 +35,8 @@ public class SamuraiActionManager2 : BaseActionManager2
         }
         else if (_actionChosen == 4)
         {
-            PerformSummon(context);
+            _actionExecutor.ExecuteSummonAtChosenPosition(context);
+            //PerformSummon(context);
             _turnCalculator.CalculateTurnAfterSummonOrPass(context.activePlayer);
             _actionExecutor.ShowTurnResults();
         }
@@ -49,35 +51,5 @@ public class SamuraiActionManager2 : BaseActionManager2
     }
 
     
-    
-    protected override void PerformSummon(ActionContext context)
-    {
-        var invoke = new Invoke(_view, _turnCalculator);
-        List<int> validIndexes = invoke.ShowUnitsInReserve(context.activePlayer.Team);
-        int userInput = invoke.GetUserInput();
-        
-        if (validIndexes.Count == 0)
-        {
-            _view.WriteLine("----------------------------------------");
-            throw new OperationCanceledException();
-        }
-        
-        _view.WriteLine("----------------------------------------");
-        
-        int realIndexToInvoke = invoke.GetRealIndexFromUserInput(userInput, validIndexes);
-        
-        if (realIndexToInvoke == -1)
-        {
-            throw new OperationCanceledException();
-        }
-
-        invoke.ShowAvailablePositionsForInvokeMonster(context.activePlayer.Team);
-        int unitToRemoveFromBoard = invoke.GetUserInput();
-        _view.WriteLine("----------------------------------------");
-    
-        invoke.MakeInvoke(context.activePlayer, realIndexToInvoke, unitToRemoveFromBoard);
-        _view.WriteLine("----------------------------------------");
-    }
-
     
 }

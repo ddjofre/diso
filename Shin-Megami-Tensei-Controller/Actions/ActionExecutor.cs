@@ -1,6 +1,7 @@
 ﻿using Shin_Megami_Tensei_View;
 using Shin_Megami_Tensei.Actions.AttacksExecutors;
 using Shin_Megami_Tensei.Actions.AttackTypes.OfensiveTypes;
+using Shin_Megami_Tensei.Actions.Invocations;
 using Shin_Megami_Tensei.Actions.SkillExecutors;
 using Shin_Megami_Tensei.Actions.TargetTypes;
 using Shin_Megami_Tensei.Battle;
@@ -75,6 +76,61 @@ public class ActionExecutor
         
         var target = basicAttackExecutor.GetRival(targetsIndexes[0], context.opponentPlayer);
         basicAttackExecutor.Execute(target, context.actualUnitPlaying, context.activePlayer, context.opponentPlayer, targetsIndexes);
+    }
+
+    public void ExecuteSummonAtChosenPosition(ActionContext context)
+    {
+        var invoke = new Invoke(_view);
+        List<int> validIndexes = invoke.ShowUnitsInReserve(context.activePlayer.Team);
+        int userInput = invoke.GetUserInput();
+        
+        if (validIndexes.Count == 0)
+        {
+            _view.WriteLine("----------------------------------------");
+            throw new OperationCanceledException();
+        }
+        
+        _view.WriteLine("----------------------------------------");
+        
+        int realIndexToInvoke = invoke.GetRealIndexFromUserInput(userInput, validIndexes);
+        
+        if (realIndexToInvoke == -1)
+        {
+            throw new OperationCanceledException();
+        }
+
+        invoke.ShowAvailablePositionsForInvokeMonster(context.activePlayer.Team);
+        int unitToRemoveFromBoard = invoke.GetUserInput();
+        _view.WriteLine("----------------------------------------");
+    
+        invoke.MakeInvoke(context.activePlayer, realIndexToInvoke, unitToRemoveFromBoard);
+        _view.WriteLine("----------------------------------------");
+    }
+
+    public void ExecuteSummonReplacingInvoker(ActionContext context)
+    {
+        var invoke = new Invoke(_view);
+        List<int> validIndexes = invoke.ShowUnitsInReserve(context.activePlayer.Team);
+        int userInput = invoke.GetUserInput();
+        
+        if (validIndexes.Count == 0)
+        {
+            _view.WriteLine("----------------------------------------");
+            throw new OperationCanceledException();
+        }
+        
+        _view.WriteLine("----------------------------------------");
+        
+        int realIndexToInvoke = invoke.GetRealIndexFromUserInput(userInput, validIndexes);
+        
+        if (realIndexToInvoke == -1)
+        {
+            throw new OperationCanceledException();
+        }
+    
+        int unitToRemoveFromBoard = invoke.GetActualUnitIndex(context.activePlayer.Team, context.actualUnitPlaying);
+        invoke.MakeInvoke(context.activePlayer, realIndexToInvoke, unitToRemoveFromBoard);
+        _view.WriteLine("----------------------------------------");
     }
 
     private BasicAttackExecutor CreatePhysicalAttackExecutor()

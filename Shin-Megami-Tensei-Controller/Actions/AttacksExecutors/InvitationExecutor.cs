@@ -1,4 +1,5 @@
-﻿using Shin_Megami_Tensei.GameComponents.PlayerComponents;
+﻿using Shin_Megami_Tensei.Actions.Invocations;
+using Shin_Megami_Tensei.GameComponents.PlayerComponents;
 
 namespace Shin_Megami_Tensei.Actions.AttacksExecutors;
 
@@ -24,11 +25,12 @@ public class InvitationExecutor
     {
         _view = view;
         _turnCalculator = turnCalculator;
-        _invoke = new Invoke(view, turnCalculator);
+        _invoke = new Invoke(view);
     }
 
     public void Execute(Unit actualUnitPlaying, Player player)
     {
+        
         // Mostrar monstruos de la reserva (vivos y muertos)
         int numOptions = ShowMonstersInReserve(player.Team);
         
