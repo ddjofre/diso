@@ -94,29 +94,6 @@ public class Invoke
         }
     }
     
-    public void ChangeParameterHasBeenInvokeToFalseInMonsterList(Team team, Unit monster)
-    {
-        foreach (var unit in team.Monsters)
-        {
-            if (monster.name == unit.name)
-            {
-                unit.HasBeenIvoked = false;
-            }
-        }
-    }
-    
-    public void ChangeParameterHasBeenReplaceToFalseInMonsterList(Team team, Unit monster)
-    {
-        foreach (var unit in team.Monsters)
-        {
-            if (monster.name == unit.name)
-            {
-                unit.HasBeenReplaceInInvoke = false;
-            }
-        }
-    }
-    
-    
     public List<int> ShowUnitsInReserve(Team team)
 {
     _view.WriteLine("Seleccione un monstruo para invocar");
