@@ -8,13 +8,13 @@ public class Player
     public Team Team;
     public int FullTurns;
     public int BlinkingTurns;
-    public int K;
+    public int numOfTimeUsesHabilities;
     public Player(int playerId, Team team)
     {
         this.PlayerId = playerId;
         this.Team = team;
         this.BlinkingTurns = 0;
-        this.K = 0;
+        this.numOfTimeUsesHabilities= 0;
 
     }
     

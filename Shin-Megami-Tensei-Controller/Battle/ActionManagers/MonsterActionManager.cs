@@ -27,6 +27,7 @@ public class MonsterActionManager : BaseActionManager
         else if (_actionChosen == 2)
         {
             _actionExecutor.ExecuteSkill(context);
+            context.activePlayer.numOfTimeUsesHabilities +=1 ;
         }
         
         else if (_actionChosen == 3)

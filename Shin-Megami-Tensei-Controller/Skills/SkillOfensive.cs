@@ -22,8 +22,19 @@ public class SkillOfensive: Skill
         List<int> targetsIndexes = basicAttackExecutor.GetTargets(playerRival);
                 
         Unit target = basicAttackExecutor.GetRival(targetsIndexes[0], playerRival);
+
+        int numOfHits = CalculateHits(player);
+
+        for (int i = 0; i < numOfHits; i++)
+        {
+            basicAttackExecutor.Execute(actualUnitPlaying, playerRival, targetsIndexes);
+        }
         
-        basicAttackExecutor.Execute(target, actualUnitPlaying, player, playerRival, targetsIndexes);
+        Console.WriteLine("##################################3");
+        basicAttackExecutor.ShowFinalHpMessage(actualUnitPlaying, target);
+        Console.WriteLine("##################################3");
+        
+        basicAttackExecutor.ShowActionTurnResults(player, target);
         
         DiscountMP(actualUnitPlaying);
         

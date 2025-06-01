@@ -55,7 +55,7 @@ public abstract class BaseOffensive
         
     }
     
-    private void GetFinalHpMessage(Unit attacker, Unit target)
+    public void GetFinalHpMessage(Unit attacker, Unit target)
     {
         var affectedUnit = _currentEffectHandler.GetAffectedUnit(attacker, target);
         _view.WriteLine($"{affectedUnit.name} termina con HP:{affectedUnit.ActualHP}/{affectedUnit.stats.HP}");
@@ -102,8 +102,7 @@ public abstract class BaseOffensive
         GetAttackMessage(actualUnitPlaying, target);
         GetAffinityMessage(actualUnitPlaying, target);
         GetDamageMessage(actualUnitPlaying, target);
-        GetFinalHpMessage(actualUnitPlaying, target);
-        
+        //GetFinalHpMessage(actualUnitPlaying, target);
     }
     
     protected abstract void GetAttackMessage(Unit attacker, Unit target);

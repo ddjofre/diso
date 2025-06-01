@@ -75,7 +75,9 @@ public class ActionExecutor
         }
         
         var target = basicAttackExecutor.GetRival(targetsIndexes[0], context.opponentPlayer);
-        basicAttackExecutor.Execute(target, context.actualUnitPlaying, context.activePlayer, context.opponentPlayer, targetsIndexes);
+        basicAttackExecutor.Execute(context.actualUnitPlaying, context.opponentPlayer, targetsIndexes);
+        basicAttackExecutor.ShowFinalHpMessage(context.actualUnitPlaying, target);
+        basicAttackExecutor.ShowActionTurnResults(context.activePlayer, target);
     }
 
     public void ExecuteSummonAtChosenPosition(ActionContext context)

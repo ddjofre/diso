@@ -32,6 +32,7 @@ public class SamuraiActionManager : BaseActionManager
         else if (_actionChosen == 3)
         {
             _actionExecutor.ExecuteSkill(context);
+            context.activePlayer.numOfTimeUsesHabilities +=1 ;
         }
         else if (_actionChosen == 4)
         {

@@ -89,7 +89,7 @@ public class Invoke
         }
     }
     
-    public List<int> ShowUnitsInReserve(Team team) {
+    public virtual List<int> ShowUnitsInReserve(Team team) {
         
         _view.WriteLine("Seleccione un monstruo para invocar");
         

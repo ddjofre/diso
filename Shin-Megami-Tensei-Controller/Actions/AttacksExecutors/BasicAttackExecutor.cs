@@ -52,20 +52,28 @@ public class BasicAttackExecutor
         }
     }
     
-    private void ShowActionTurnResults()
+    public void ShowActionTurnResults(Player player, Unit target)
     {
         _view.WriteLine("----------------------------------------");
+        _turnCalculator.CalculateTurnsAfterAttack(player, target, _typeOffensive.typeAttack);
         _view.WriteLine($"Se han consumido {_turnCalculator.FullTurnsConsumed} Full Turn(s) y {_turnCalculator.BlinkingTurnsConsumed} Blinking Turn(s)");
         _view.WriteLine($"Se han obtenido {_turnCalculator.BlinkingTurnsObtained} Blinking Turn(s)");
         _view.WriteLine("----------------------------------------");
     }
-    
-    public void Execute(Unit target, Unit actualUnitPlying, Player player, Player rivalPlayer, List<int> indexTargets)
+
+    public void ShowFinalHpMessage(Unit attacker, Unit target)
     {
-        //List<int> indexTargets = _typeTarget.GetTargets(rivalPlayer);
+        _typeOffensive.GetFinalHpMessage(attacker, target);
+        //_view.WriteLine("----------------------------------------");
+    }
+    
+    public void Execute(Unit actualUnitPlying, Player rivalPlayer, List<int> indexTargets)
+    {
+        
         MakeAttacks(indexTargets, actualUnitPlying, rivalPlayer);
-        _turnCalculator.CalculateTurnsAfterAttack(player, target, _typeOffensive.typeAttack);
-        ShowActionTurnResults();
+        
+        //_turnCalculator.CalculateTurnsAfterAttack(player, target, _typeOffensive.typeAttack);
+        //ShowActionTurnResults();
     }
     
     
