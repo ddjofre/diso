@@ -37,7 +37,7 @@ public class BasicAttackExecutor
     public Unit GetRival(int indexRival, Player rivalPlayer)
     {
         Unit rivalChosen = rivalPlayer.Team.UnitsInGame[indexRival];
-        //_view.WriteLine("----------------------------------------");
+        _view.WriteLine("----------------------------------------");
         return rivalChosen;
     }
     
@@ -45,8 +45,8 @@ public class BasicAttackExecutor
     {
         foreach (var index in indexUnitsToAttack)
         {
-            Unit rival = GetRival(index, rivalPlayer);
-            _view.WriteLine("----------------------------------------");
+            Unit rival = rivalPlayer.Team.UnitsInGame[index];
+            //_view.WriteLine("----------------------------------------");
             _typeOffensive.MakeAttack(actualUnitPlaying, rival, _typeOffensive.typeAttack);
             
         }
@@ -74,6 +74,16 @@ public class BasicAttackExecutor
         
         //_turnCalculator.CalculateTurnsAfterAttack(player, target, _typeOffensive.typeAttack);
         //ShowActionTurnResults();
+    }
+    
+    public void MakeAttackMultiHits(List<int> indexUnitsToAttack, Unit actualUnitPlaying, Player rivalPlayer)
+    {
+        foreach (var index in indexUnitsToAttack)
+        {
+            Unit rival = GetRival(index, rivalPlayer);
+            _typeOffensive.MakeAttack(actualUnitPlaying, rival, _typeOffensive.typeAttack);
+            
+        }
     }
     
     

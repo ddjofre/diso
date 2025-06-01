@@ -24,15 +24,14 @@ public class SkillOfensive: Skill
         Unit target = basicAttackExecutor.GetRival(targetsIndexes[0], playerRival);
 
         int numOfHits = CalculateHits(player);
-
+        
+        
         for (int i = 0; i < numOfHits; i++)
         {
             basicAttackExecutor.Execute(actualUnitPlaying, playerRival, targetsIndexes);
         }
         
-        Console.WriteLine("##################################3");
         basicAttackExecutor.ShowFinalHpMessage(actualUnitPlaying, target);
-        Console.WriteLine("##################################3");
         
         basicAttackExecutor.ShowActionTurnResults(player, target);
         
