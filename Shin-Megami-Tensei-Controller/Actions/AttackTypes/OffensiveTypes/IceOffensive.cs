@@ -8,30 +8,22 @@ namespace Shin_Megami_Tensei.Actions.AttackTypes.OfensiveTypes;
 public class IceOffensive: BaseOffensive
 {
     private View _view;
-    private DamageCalculator _damageCalculator;
-    private TurnCalculator _turnCalculator;
     
     
-    public IceOffensive(View view, TurnCalculator turnCalculator): base(view, turnCalculator)
+    public IceOffensive(View view): base(view)
     {
         _view = view;
-        _turnCalculator = turnCalculator;
-        _damageCalculator = new DamageCalculator();
         typeAttack = TypeAttack.Ice;
 
     }
-    
     protected override void GetAttackMessage(Unit attacker, Unit target)
     {
         _view.WriteLine($"{attacker.name} lanza hielo a {target.name}");
     }
     
-   
     protected override string GetAffinity(Unit target)
     {
         return target.affinity.Ice;
     }
-    
-    
     
 }

@@ -1,5 +1,4 @@
-﻿using Shin_Megami_Tensei.GameComponents.PlayerComponents;
-using Shin_Megami_Tensei_View;
+﻿using Shin_Megami_Tensei_View;
 using Shin_Megami_Tensei.Actions.Invocations;
 using Shin_Megami_Tensei.Battle;
 using Shin_Megami_Tensei.GameComponents;
@@ -21,9 +20,8 @@ public class SabbatmaExecutor
         _invoke = new Invoke(view);
     }
 
-    public void Execute(Unit actualUnitPlaying, Player player)
+    public void Execute(Player player)
     {
-        // Usar exactamente el mismo flujo que SamuraiActionManager2.PerformSummon()
         List<int> validIndexes = _invoke.ShowUnitsInReserve(player.Team);
         int userInput = _invoke.GetUserInput();
         

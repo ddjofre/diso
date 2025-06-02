@@ -20,7 +20,7 @@ public class SkillOffensiveFactory
         _view = view;
         _turnCalculator = turnCalculator;
         _typeAttackFactory = new TypeAttackFactory(_view, _turnCalculator);
-        _typeTargetFactory = new TypeTargetFactory(_view, _turnCalculator);
+        _typeTargetFactory = new TypeTargetFactory(_view);
         _skillMap = new Dictionary<string, (TypeAttack, TypeTarget)>
         
         {

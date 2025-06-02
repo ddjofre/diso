@@ -14,7 +14,7 @@ public class BattleInfoDisplay
         _view = view;
     }
     
-    public void ShowInfoRound(Player playerPlaying, Unit actualUnitPlaying, int turn)
+    public void ShowInfoRound(Player playerPlaying, int turn)
     {
         if (turn == 1)
         {
@@ -43,7 +43,7 @@ public class BattleInfoDisplay
 
         for (int i = 0; i < 3; i++)
         {
-            if(team.UnitsInGame[i+1] != null && team.UnitsInGame[i+1].ActualHP!=0 && team.UnitsInGame[i+1].HasBeenRecarm != true)
+            if(team.UnitsInGame[i+1] != null && team.UnitsInGame[i+1].ActualHP!=0 )
             {
                 Unit monster = team.UnitsInGame[i + 1];
                 _view.WriteLine($"{positions[i]}-{monster.name} HP:{monster.ActualHP}/{monster.stats.HP} MP:{monster.ActualMP}/{monster.stats.MP}");

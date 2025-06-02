@@ -5,8 +5,6 @@ using Shin_Megami_Tensei.Units;
 using Shin_Megami_Tensei.Units.UnitComponents;
 
 namespace Shin_Megami_Tensei.Skills;
-
-// Skills/SkillSpecial.cs
 using Shin_Megami_Tensei.GameComponents;
 using Shin_Megami_Tensei.Units;
 using Shin_Megami_Tensei.Units.UnitComponents;
@@ -25,7 +23,7 @@ public class SkillSpecial : Skill
 
     public override void Execute(Unit actualUnitPlaying, Player playerRival, Player player)
     {
-        _sabbatmaExecutor.Execute(actualUnitPlaying, player);
+        _sabbatmaExecutor.Execute(player);
         DiscountMP(actualUnitPlaying);
     }
 }

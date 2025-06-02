@@ -6,15 +6,20 @@ public class NullAttackEffect : IAttackEffectHandler
 {
     public void ApplyEffect(Unit attacker, Unit target, int damage)
     {
-        // Null blocks damage - do nothing
     }
     
-    public bool ShouldShowAttackMessage() => true;
-    
+    public bool ShouldShowAttackMessage()
+    {
+        return true;
+    }
+
     public string GetDamageMessage(Unit attacker, Unit target)
     {
-        return null; // No damage message for null
+        return null;
     }
     
-    public Unit GetAffectedUnit(Unit attacker, Unit target) => target;
+    public Unit GetAffectedUnit(Unit attacker, Unit target)
+    {
+        return target;
+    }
 }

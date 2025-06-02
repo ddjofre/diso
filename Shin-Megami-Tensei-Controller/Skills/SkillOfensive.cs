@@ -21,7 +21,6 @@ public class SkillOfensive: Skill
         basicAttackExecutor.ShowAvailableTargets(playerRival, actualUnitPlaying);
         List<int> targetsIndexes = basicAttackExecutor.GetTargets(playerRival);
         
-        // Verificar si la operación fue cancelada
         if (targetsIndexes[0] == -1)
         {
             throw new OperationCanceledException();

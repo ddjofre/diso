@@ -30,7 +30,7 @@ public class Battle
     
     public void ShowInitialInfo(Player actualPlayer,int turno)
     {
-        _battleInfoDisplay.ShowInfoRound(actualPlayer, actualUnitPlaying, turno);
+        _battleInfoDisplay.ShowInfoRound(actualPlayer, turno);
     }
     
     public void CalculateInitialTurns(Player actualPlayer)
@@ -38,7 +38,6 @@ public class Battle
         TurnCalculator turnCalculator = new TurnCalculator();
         turnCalculator.CalculateInitialTurns(actualPlayer);
     }
-    
     
     public void SetInitialsParametersToBattle(Player actualPlayer, Player rivalPlayer, int turn)
     {
@@ -55,8 +54,6 @@ public class Battle
         actualUnitPlaying = _unitManager.SetActualUnitPlaying(actualPlayer);
         
         ShowInitialInfo(actualPlayer, turn);
-        
-        
     }
     
     public void ActualizeInitialsParametersToBattle(Player actualPlayer, Player rivalPlayer)
@@ -66,10 +63,8 @@ public class Battle
         
         actualUnitPlaying = _unitManager.SetActualUnitPlaying(actualPlayer);
         
-        // Al final del método
         _unitManager.MoveDeadUnitsToReserve(actualPlayer);
-        _unitManager.SetUnitsInGame(rivalPlayer);
-        
+        _unitManager.MoveDeadUnitsToReserve(rivalPlayer);
     }
     
     public void ActualizeOrderToUnits(Player actualPlayer)
@@ -108,89 +103,18 @@ public class Battle
         _battleInfoDisplay.ShowTurnsPLayer(actualPlayer);
         _battleInfoDisplay.ShowOrderUnitsPlay(actualPlayer);
         
-        
-        // Create context with all needed data
         var context = new ActionContext(actualPlayer, rivalPlayer, actualUnitPlaying);
-        
-        // Get appropriate action manager
         var actionManager = _actionManagerFactory.GetActionManager(actualUnitPlaying);
         
-        // Now just two method calls with better separation
         actionManager.ChooseAction(actualUnitPlaying);
-        actionManager.MakeAction(context);  // Only one parameter!
-        
-        //_unitManager.MoveDeadUnitsToReserve(actualPlayer);
-        //_unitManager.MoveDeadUnitsToReserve(rivalPlayer);
+        actionManager.MakeAction(context);
         
         _unitManager.MoveDeadUnitsToReserve(actualPlayer);
         _unitManager.MoveDeadUnitsToReserve(rivalPlayer);
         
-        Console.WriteLine("=== Rival Units In Game ===");
-        for (int i = 0; i < rivalPlayer.Team.UnitsInGame.Length; i++)
-        {
-            Unit unit = rivalPlayer.Team.UnitsInGame[i];
-            if (unit != null)
-            {
-                Console.WriteLine($"Slot {i}: {unit.name} - HP: {unit.ActualHP}");
-            }
-            else
-            {
-                Console.WriteLine($"Slot {i}: Empty");
-            }
-        }
-
-        Console.WriteLine("\n=== Rival Units In Reserve ===");
-        for (int i = 0; i < rivalPlayer.Team.UnitsInReserve.Length; i++)
-        {
-            Unit unit = rivalPlayer.Team.UnitsInReserve[i];
-            if (unit != null)
-            {
-                Console.WriteLine($"Slot {i}: {unit.name} - HP: {unit.ActualHP}");
-            }
-            else
-            {
-                Console.WriteLine($"Slot {i}: Empty");
-            }
-        }
-        
-        
-        
-        
-        Console.WriteLine("#######################################3");
-        Console.WriteLine("=== Player Units In Game ===");
-        for (int i = 0; i < actualPlayer.Team.UnitsInGame.Length; i++)
-        {
-            Unit unit = actualPlayer.Team.UnitsInGame[i];
-            if (unit != null)
-            {
-                Console.WriteLine($"Slot {i}: {unit.name} - HP: {unit.ActualHP}");
-            }
-            else
-            {
-                Console.WriteLine($"Slot {i}: Empty");
-            }
-        }
-
-        Console.WriteLine("\n=== Player Units In Reserve ===");
-        for (int i = 0; i < actualPlayer.Team.UnitsInReserve.Length; i++)
-        {
-            Unit unit = actualPlayer.Team.UnitsInReserve[i];
-            if (unit != null)
-            {
-                Console.WriteLine($"Slot {i}: {unit.name} - HP: {unit.ActualHP}");
-            }
-            else
-            {
-                Console.WriteLine($"Slot {i}: Empty");
-            }
-        }
-
-        
         ActualizeOrderToUnits(actualPlayer);
         
     }
-    
-    
     
     public bool CheckIfHasTurns(Player playerPlaying)
     {

@@ -26,7 +26,7 @@ public class ActionManagerFactory
         {
             return manager;
         }
-
+        
         throw new NotImplementedException($"No action manager found for unit type: {unit.type}");
     }
 }

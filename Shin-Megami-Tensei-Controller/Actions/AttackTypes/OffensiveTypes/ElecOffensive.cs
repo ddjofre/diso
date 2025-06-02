@@ -1,5 +1,4 @@
 ﻿using Shin_Megami_Tensei_View;
-using Shin_Megami_Tensei.Battle;
 using Shin_Megami_Tensei.Enumerates;
 using Shin_Megami_Tensei.Units;
 
@@ -8,25 +7,18 @@ namespace Shin_Megami_Tensei.Actions.AttackTypes.OfensiveTypes;
 public class ElecOffensive: BaseOffensive
 {
     private View _view;
-    private DamageCalculator _damageCalculator;
-    private TurnCalculator _turnCalculator;
     
-    public ElecOffensive(View view, TurnCalculator turnCalculator): base(view, turnCalculator)
+    public ElecOffensive(View view): base(view)
     {
         _view = view;
-        _turnCalculator = turnCalculator;
-        _damageCalculator = new DamageCalculator();
         typeAttack = TypeAttack.Elec;
 
     }
-    
     
     protected override void GetAttackMessage(Unit attacker, Unit target)
     {
         _view.WriteLine($"{attacker.name} lanza electricidad a {target.name}");
     }
-    
-    
     
     protected override string GetAffinity(Unit target)
     {

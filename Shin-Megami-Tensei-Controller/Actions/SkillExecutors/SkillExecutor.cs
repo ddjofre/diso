@@ -40,25 +40,23 @@ public class SkillExecutor
         _view.WriteLine($"{numVecesQueSeHizoPrint + 1}-Cancelar");
         return numVecesQueSeHizoPrint;
     }
-
-    // En SkillExecutor.cs, método CreateSkill
+    
     public Skill CreateSkill(SkillInfo skillInfo)
     {
-        if (new[] { "Phys", "Elec", "Fire" , "Force", "Gun", "Ice"}.Contains(skillInfo.type))
+        if (new[] { "Phys", "Elec", "Fire", "Force", "Gun", "Ice" }.Contains(skillInfo.type))
         {
-            SkillOffensiveFactory skillOffensiveFactory = new SkillOffensiveFactory(_view, _turnCalculator);
+            var skillOffensiveFactory = new SkillOffensiveFactory(_view, _turnCalculator);
             return skillOffensiveFactory.CreateSkillFromMap(skillInfo.name, skillInfo);
         }
         
-        else if(skillInfo.type.Equals("Heal"))
+        else if (skillInfo.type.Equals("Heal"))
         {
-            SkillHealFactory skillHealFactory = new SkillHealFactory(_view, _turnCalculator);
-            return skillHealFactory.CreateSkillFromMap(skillInfo.name, skillInfo);
+            var healSkillFactory = new HealSkillFactory(_view, _turnCalculator);
+            return healSkillFactory.CreateHealSkill(skillInfo);
         }
         
-        else if(skillInfo.type.Equals("Special"))
+        else if (skillInfo.type.Equals("Special"))
         {
-            // Por ahora solo Sabbatma es Special
             if (skillInfo.name == "Sabbatma")
             {
                 var sabbatmaExecutor = new SabbatmaExecutor(_view, _turnCalculator);
@@ -66,7 +64,6 @@ public class SkillExecutor
             }
             throw new NotImplementedException($"Special skill {skillInfo.name} not implemented");
         }
-        
         else
         {
             throw new NotImplementedException($"Skill type {skillInfo.type} not implemented");

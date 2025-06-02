@@ -1,6 +1,5 @@
 ﻿namespace Shin_Megami_Tensei.Skills;
 
-// Skills/SkillHealInvitation.cs
 using Shin_Megami_Tensei.Actions.AttacksExecutors;
 using Shin_Megami_Tensei.GameComponents;
 using Shin_Megami_Tensei.Units;

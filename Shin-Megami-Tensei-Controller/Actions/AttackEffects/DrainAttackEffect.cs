@@ -11,15 +11,18 @@ public class DrainAttackEffect : IAttackEffectHandler
             target.ActualHP = target.stats.HP;
     }
     
-    public bool ShouldShowAttackMessage() => true;
-    
-    
+    public bool ShouldShowAttackMessage()
+    {
+        return true;
+    }
+
     public string GetDamageMessage(Unit attacker, Unit target)
     {
-        return null; // No damage message for drain
+        return null;
     }
     
-    public Unit GetAffectedUnit(Unit attacker, Unit target) => target;
-    
-    
+    public Unit GetAffectedUnit(Unit attacker, Unit target)
+    {
+        return target;
+    }
 }

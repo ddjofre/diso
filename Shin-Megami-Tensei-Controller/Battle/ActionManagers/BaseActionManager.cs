@@ -21,7 +21,7 @@ public abstract class BaseActionManager
     public int ChooseAction(Unit actualUnitPlaying)
     {
         _view.WriteLine($"Seleccione una acción para {actualUnitPlaying.name}");
-        ShowPossibleActions(actualUnitPlaying);
+        ShowPossibleActions();
         
         _actionChosen = Convert.ToInt32(_view.ReadLine());
         _view.WriteLine("----------------------------------------");
@@ -48,6 +48,6 @@ public abstract class BaseActionManager
         }
     }
 
-    protected abstract void ShowPossibleActions(Unit actualUnitPlaying);
+    protected abstract void ShowPossibleActions();
     protected abstract void ExecuteChosenAction(ActionContext context);
 }

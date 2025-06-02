@@ -3,38 +3,27 @@ using Shin_Megami_Tensei.Battle;
 using Shin_Megami_Tensei.Units;
 
 namespace Shin_Megami_Tensei.Actions.AttackTypes.HealTypes;
-
-public class RecarmHeal: BaseHeal
+public class RecarmHeal : BaseHeal
 {
-    
     public RecarmHeal(View view, TurnCalculator turnCalculator) : base(view, turnCalculator)
     {
     }
 
-    private int CalculateHealAmount(Unit target)
+    public override void ApplyEffect(Unit caster, Unit target)
     {
-        int healAmount = (int)Math.Floor(target.stats.HP * (powerSkill / 100.0));
-        return healAmount;
-    }
-    
-    public override void ApplyHeal(Unit target)
-    {
-        target.ActualHP = CalculateHealAmount(target);
+        int reviveHP = (int)Math.Floor(target.stats.HP * (powerSkill / 100.0));
+        target.ActualHP = reviveHP;
         target.HasBeenRecarm = true;
     }
-    
+
     public override bool CanTargetUnit(Unit target)
     {
         return target.ActualHP == 0;
     }
 
-
-    public override void GetHealMessage(Unit attacker, Unit target)
+    public override string GetEffectDescription(Unit caster, Unit target)
     {
-        int healAmount = CalculateHealAmount(target);
-        _view.WriteLine($"{attacker.name} revive a {target.name}");
-        _view.WriteLine($"{target.name} recibe {healAmount} de HP");
+        int reviveHP = (int)Math.Floor(target.stats.HP * (powerSkill / 100.0));
+        return $"{caster.name} revive a {target.name}\n{target.name} recibe {reviveHP} de HP";
     }
-    
-    
 }

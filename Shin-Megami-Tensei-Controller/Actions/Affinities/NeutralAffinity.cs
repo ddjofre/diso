@@ -11,7 +11,6 @@ public class NeutralAffinity: BaseAffinity
 
     public override double GetAffinity() => 1;
     
-
     public override void CalculateTurnEffect(Player player, TurnCalculator turnCalculator)
     {
         if (player.BlinkingTurns == 0)

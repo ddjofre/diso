@@ -9,25 +9,20 @@ public class PhysOffensive: BaseOffensive
 {
     private View _view;
     
-    public PhysOffensive(View view, TurnCalculator turnCalculator): base(view, turnCalculator)
+    public PhysOffensive(View view): base(view)
     {
         _view = view;
         typeAttack = TypeAttack.Phys;
-
     }
-    
-
     
     protected override void GetAttackMessage(Unit attacker, Unit target)
     {
         _view.WriteLine($"{attacker.name} ataca a {target.name}");
     }
     
-
     protected override string GetAffinity(Unit target)
     {
         return target.affinity.Phys;
     }
-
     
 }

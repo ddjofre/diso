@@ -6,21 +6,6 @@ public interface IAttackEffectHandler
 {
     void ApplyEffect(Unit attacker, Unit target, int damage);
     bool ShouldShowAttackMessage();
-    
     string GetDamageMessage(Unit attacker, Unit target);
     Unit GetAffectedUnit(Unit attacker, Unit target);
-    
-    
-    
 }
-
-
-
-
-
-
-// Actions/AttackEffects/RepelAttackEffect.cs
-
-// Actions/AttackEffects/DrainAttackEffect.cs
-
-

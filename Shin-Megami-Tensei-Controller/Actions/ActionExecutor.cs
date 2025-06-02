@@ -6,11 +6,10 @@ using Shin_Megami_Tensei.Actions.SkillExecutors;
 using Shin_Megami_Tensei.Actions.TargetTypes;
 using Shin_Megami_Tensei.Battle;
 using Shin_Megami_Tensei.Enumerates;
-using Shin_Megami_Tensei.GameComponents;
 using Shin_Megami_Tensei.Skills;
-using Shin_Megami_Tensei.Units;
 
 namespace Shin_Megami_Tensei.Actions;
+
 public class ActionExecutor
 {
     private readonly View _view;
@@ -57,8 +56,7 @@ public class ActionExecutor
         }
         catch (OperationCanceledException)
         {
-            _view.WriteLine("----------------------------------------");
-            throw; // Re-lanzar la excepción para que sea manejada por BaseActionManager
+            throw new OperationCanceledException();
         }
     }
 
@@ -118,7 +116,6 @@ public class ActionExecutor
         invoke.MakeInvoke(context.activePlayer, realIndexToInvoke, unitToRemoveFromBoard);
         _view.WriteLine("----------------------------------------");
         
-        CheckForDuplicates(context.activePlayer, "After invoke");
     }
 
     public void ExecuteSummonReplacingInvoker(ActionContext context)
@@ -146,23 +143,22 @@ public class ActionExecutor
         invoke.MakeInvoke(context.activePlayer, realIndexToInvoke, unitToRemoveFromBoard);
         _view.WriteLine("----------------------------------------");
         
-        CheckForDuplicates(context.activePlayer, "After invoke");
     }
 
     private BasicAttackExecutor CreatePhysicalAttackExecutor()
     {
-        var offensivePhys = new PhysOffensive(_view, _turnCalculator);
+        var offensivePhys = new PhysOffensive(_view);
         var singleTypeTarget = new SingleTypeTarget(_view, TypeTarget.Single);
         return new BasicAttackExecutor(offensivePhys, singleTypeTarget, _turnCalculator, _view);
     }
 
     private BasicAttackExecutor CreateGunAttackExecutor()
     {
-        var offensiveGun = new GunOffensive(_view, _turnCalculator);
+        var offensiveGun = new GunOffensive(_view);
         var singleTypeTarget = new SingleTypeTarget(_view, TypeTarget.Single);
         return new BasicAttackExecutor(offensiveGun, singleTypeTarget, _turnCalculator, _view);
     }
-
+    
     public void ShowTurnResults()
     {
         _view.WriteLine($"Se han consumido {_turnCalculator.FullTurnsConsumed} Full Turn(s) y {_turnCalculator.BlinkingTurnsConsumed} Blinking Turn(s)");
@@ -170,63 +166,5 @@ public class ActionExecutor
         _view.WriteLine("----------------------------------------");
     }
     
-    
-    // Agregar este método a UnitManager o Battle
-    public void CheckForDuplicates(Player player, string context)
-    {
-        Console.WriteLine($"=== DUPLICATE CHECK: {context} - Player {player.PlayerId} ===");
-    
-        Dictionary<Unit, List<string>> unitLocations = new Dictionary<Unit, List<string>>();
-    
-        // Revisar UnitsInGame
-        for (int i = 0; i < player.Team.UnitsInGame.Length; i++)
-        {
-            Unit unit = player.Team.UnitsInGame[i];
-            if (unit != null)
-            {
-                if (!unitLocations.ContainsKey(unit))
-                    unitLocations[unit] = new List<string>();
-                unitLocations[unit].Add($"Game[{i}]");
-            }
-        }
-    
-        // Revisar UnitsInReserve
-        for (int i = 0; i < player.Team.UnitsInReserve.Length; i++)
-        {
-            Unit unit = player.Team.UnitsInReserve[i];
-            if (unit != null)
-            {
-                if (!unitLocations.ContainsKey(unit))
-                    unitLocations[unit] = new List<string>();
-                unitLocations[unit].Add($"Reserve[{i}]");
-            }
-        }
-    
-        // Revisar lista principal Monsters
-        for (int i = 0; i < player.Team.Monsters.Count; i++)
-        {
-            Unit unit = player.Team.Monsters[i];
-            if (!unitLocations.ContainsKey(unit))
-                unitLocations[unit] = new List<string>();
-            unitLocations[unit].Add($"Monsters[{i}]");
-        }
-    
-        // Reportar duplicados
-        bool foundDuplicates = false;
-        foreach (var kvp in unitLocations)
-        {
-            if (kvp.Value.Count > 1)
-            {
-                Console.WriteLine($"DUPLICATE: {kvp.Key.name} (HP: {kvp.Key.ActualHP}) found in: {string.Join(", ", kvp.Value)}");
-                foundDuplicates = true;
-            }
-        }
-    
-        if (!foundDuplicates)
-        {
-            Console.WriteLine("No duplicates found.");
-        }
-    
-        Console.WriteLine("=== END DUPLICATE CHECK ===\n");
-    }
+   
 }

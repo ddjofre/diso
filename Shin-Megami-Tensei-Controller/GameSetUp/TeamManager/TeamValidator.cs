@@ -13,8 +13,6 @@ public class TeamValidator
         _team = team;
     }
 
-
-
     private bool DoesHaveExactlyOneSamurai()
     {
         int countSamurais = 0;

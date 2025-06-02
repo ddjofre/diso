@@ -13,7 +13,6 @@ public class BasicAttackExecutor
     private BaseTypeTarget _typeTarget;
     private TurnCalculator _turnCalculator;
     private View _view;
-    private UnitManager _unitManager;
     
     
     public BasicAttackExecutor(BaseOffensive baseOffensive, BaseTypeTarget baseTypeTarget, TurnCalculator turnCalculator, View view)
@@ -22,7 +21,6 @@ public class BasicAttackExecutor
         _typeTarget = baseTypeTarget;
         _turnCalculator = turnCalculator;
         _view = view;
-        _unitManager = new UnitManager(_view);
 
     }
 
@@ -48,7 +46,6 @@ public class BasicAttackExecutor
         foreach (var index in indexUnitsToAttack)
         {
             Unit rival = rivalPlayer.Team.UnitsInGame[index];
-            //_view.WriteLine("----------------------------------------");
             _typeOffensive.MakeAttack(actualUnitPlaying, rival, _typeOffensive.typeAttack);
             
         }
@@ -66,27 +63,11 @@ public class BasicAttackExecutor
     public void ShowFinalHpMessage(Unit attacker, Unit target)
     {
         _typeOffensive.GetFinalHpMessage(attacker, target);
-        //_view.WriteLine("----------------------------------------");
     }
     
     public void Execute(Unit actualUnitPlying, Player rivalPlayer, List<int> indexTargets)
     {
-        
         MakeAttacks(indexTargets, actualUnitPlying, rivalPlayer);
-        
-        //_turnCalculator.CalculateTurnsAfterAttack(player, target, _typeOffensive.typeAttack);
-        //ShowActionTurnResults();
     }
-    
-    public void MakeAttackMultiHits(List<int> indexUnitsToAttack, Unit actualUnitPlaying, Player rivalPlayer)
-    {
-        foreach (var index in indexUnitsToAttack)
-        {
-            Unit rival = GetRival(index, rivalPlayer);
-            _typeOffensive.MakeAttack(actualUnitPlaying, rival, _typeOffensive.typeAttack);
-            
-        }
-    }
-    
     
 }

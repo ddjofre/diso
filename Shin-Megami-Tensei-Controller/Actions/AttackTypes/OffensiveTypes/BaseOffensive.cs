@@ -6,24 +6,20 @@ using Shin_Megami_Tensei.Battle;
 using Shin_Megami_Tensei.DamageCalculators;
 using Shin_Megami_Tensei.Enumerates;
 using Shin_Megami_Tensei.Units;
-
 namespace Shin_Megami_Tensei.Actions.AttackTypes.OfensiveTypes;
-
 
 public abstract class BaseOffensive
 {
     private  View _view;
-    private  TurnCalculator _turnCalculator;
     public bool isAttackInHabilitie;
     public int powerSkill;
     public TypeAttack typeAttack;
     private IAttackEffectHandler _currentEffectHandler;
     
 
-    public BaseOffensive(View view, TurnCalculator turnCalculator)
+    public BaseOffensive(View view)
     {
         _view = view;
-        _turnCalculator = turnCalculator;
         isAttackInHabilitie = false;
         powerSkill = 0;
 
@@ -61,7 +57,6 @@ public abstract class BaseOffensive
         _view.WriteLine($"{affectedUnit.name} termina con HP:{affectedUnit.ActualHP}/{affectedUnit.stats.HP}");
     }
     
-    //cambiar los get en este nomrbe si es que no es get cuando cambies a view 
     private void GetDamageMessage(Unit attacker, Unit target)
     {
         var message = _currentEffectHandler.GetDamageMessage(attacker, target);
@@ -71,38 +66,23 @@ public abstract class BaseOffensive
         }
     }
     
-    
     public void MakeAttack(Unit attacker, Unit target, TypeAttack typeAttack)
     {
         string affinityCode = GetAffinity(target);
-        
-        // Get and store the effect handler
         var effectFactory = new AttackEffectFactory();
         _currentEffectHandler = effectFactory.GetEffectHandler(affinityCode);
         
-        // Calculate damage
         int damage = GetDamageAttack(attacker, target, powerSkill, typeAttack);
-        
-        // Apply effect
         _currentEffectHandler.ApplyEffect(attacker, target, damage);
-        
-        /*// Show attack message if needed
-        if (_currentEffectHandler.ShouldShowAttackMessage())
-        {
-            GetAttackMessage(attacker, target);
-        }
-        */
         
         ShowActionResults(attacker, target);
     }
-    
     
     public void ShowActionResults(Unit actualUnitPlaying, Unit target)
     {
         GetAttackMessage(actualUnitPlaying, target);
         GetAffinityMessage(actualUnitPlaying, target);
         GetDamageMessage(actualUnitPlaying, target);
-        //GetFinalHpMessage(actualUnitPlaying, target);
     }
     
     protected abstract void GetAttackMessage(Unit attacker, Unit target);

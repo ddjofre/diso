@@ -38,7 +38,6 @@ public class UnitManager
         
     }
     
-
     public void SetUnitsInReserve(Player player)
     {
         Team team = player.Team;
@@ -62,7 +61,6 @@ public class UnitManager
         
         
     }
-    
     
     private List<(int, int)> GetUnitsOrder(Team team)
     {
@@ -115,14 +113,12 @@ public class UnitManager
     {
         Team team = player.Team;
 
-        for (int i = 1; i < 4; i++) // Solo posiciones 1, 2, 3 (monstruos, no el samurai en posición 0)
+        for (int i = 1; i < 4; i++)
         {
             Unit unit = team.UnitsInGame[i];
-
-            // Si hay una unidad en esta posición y está muerta
+            
             if (unit != null && unit.ActualHP <= 0)
             {
-                // Verificar si ya está en la reserva (para evitar duplicados)
                 bool alreadyInReserve = false;
                 for (int k = 0; k < team.UnitsInReserve.Length; k++)
                 {
@@ -135,22 +131,17 @@ public class UnitManager
 
                 if (!alreadyInReserve)
                 {
-                    // Encontrar un slot vacío en reserva
                     for (int j = 0; j < team.UnitsInReserve.Length; j++)
                     {
                         if (team.UnitsInReserve[j] == null)
                         {
-                            // Mover la unidad muerta a la reserva
                             team.UnitsInReserve[j] = unit;
                             break;
                         }
                     }
                 }
-
-                // Eliminar la unidad del campo de juego
+                
                 team.UnitsInGame[i] = null;
-
-                // Remover del orden de ataque si está presente
                 team.indexesOrderAttack.Remove(i);
             }
         }

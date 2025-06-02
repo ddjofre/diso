@@ -19,12 +19,6 @@ public class DamageCalculatorHeal: BaseDamageCalculator
         return heal;
         
     }
-
-
-    private int CalculateHealFromHealTypeDia(Unit attacker, int powerSkill, string affinityCombat)
-    {
-        int heal = powerSkill * attacker.stats.HP;
-        return heal; 
-    }
+    
 
 }

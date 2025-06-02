@@ -9,8 +9,6 @@ namespace Shin_Megami_Tensei.GameSetUp;
 public class GameSetter
 {
     private View _view;
-    
-
     public GameSetter(View view)
     {
         _view = view;
@@ -57,26 +55,6 @@ public class GameSetter
         return false;
         
     }
-    
-    
-    
-    
-    
-    
-    
-
-    
-    
-    
-
-    
-
- 
-    
-    
-    
-    
-    
     
     
 }

@@ -14,76 +14,108 @@ public class InvitationInvoke : Invoke
         _view = view;
     }
 
-    // Override para permitir tanto unidades vivas como muertas
     public override bool MeetsConditionToBeenInvoke(Unit unit)
     {
-        // Invitation puede invocar tanto unidades vivas como muertas
         return true;
+    }
+
+    public override List<int> ShowUnitsInReserve(Team team)
+    {
+        OrderUnitsInReserveByOrderMonsterList(team);
+        _view.WriteLine("Seleccione un monstruo para invocar");
+
+        List<int> validIndexes = new List<int>();
+        int displayNumber = 1;
+
+        for (int i = 0; i < team.UnitsInReserve.Length; i++)
+        {
+            var unit = team.UnitsInReserve[i];
+            if (unit != null)
+            {
+                _view.WriteLine($"{displayNumber}-{unit.name} HP:{unit.ActualHP}/{unit.stats.HP} MP:{unit.ActualMP}/{unit.stats.MP}");
+                validIndexes.Add(i);
+                displayNumber++;
+            }
+        }
+
+        _view.WriteLine($"{displayNumber}-Cancelar");
+        return validIndexes;
     }
 
     public override void MakeInvoke(Player player, int indexMonsterToInvoke, int indexMonsterToReplace)
     {
         Team team = player.Team;
+        (Unit monsterToInvoke, Unit monsterToReplace, bool isFromReserve) = GetInvokeUnits(team, indexMonsterToInvoke, indexMonsterToReplace);
+
+        bool isEmptyPosition = IsEmptyPosition(monsterToReplace);
+        bool wasMonsterDead = IsMonsterDead(monsterToInvoke);
+
+        if (wasMonsterDead)
+        {
+            ReviveMonster(monsterToInvoke);
+        }
+
+        UpdateUnitsForInvitation(team, indexMonsterToInvoke, indexMonsterToReplace, monsterToInvoke, monsterToReplace, isFromReserve);
+        UpdateMonsterStatus(team, monsterToInvoke, monsterToReplace);
+
+        if (isFromReserve)
+        {
+            OrderUnitsInReserveByOrderMonsterList(team);
+        }
+
+        if (isEmptyPosition)
+        {
+            UpdateAttackOrder(team, indexMonsterToReplace);
+        }
+
+        _view.WriteLine($"{monsterToInvoke.name} ha sido invocado");
+    }
+    
+
+    private (Unit monsterToInvoke, Unit monsterToReplace, bool isFromReserve) GetInvokeUnits(Team team, int indexMonsterToInvoke, int indexMonsterToReplace)
+    {
         Unit monsterToReplace = team.UnitsInGame[indexMonsterToReplace];
         Unit monsterToInvoke;
         bool isFromReserve;
-        
-        // Determinar si viene de la reserva o del tablero
+
         if (indexMonsterToInvoke >= 0)
         {
-            // Viene de la reserva
             monsterToInvoke = team.UnitsInReserve[indexMonsterToInvoke];
             isFromReserve = true;
         }
         else
         {
-            // Viene del tablero (índice negativo)
             int realIndex = Math.Abs(indexMonsterToInvoke) - 1;
             monsterToInvoke = team.UnitsInGame[realIndex];
             isFromReserve = false;
         }
-        
-        bool isEmptyPosition = (monsterToReplace.ActualHP == 0);
-        bool wasMonsterDead = monsterToInvoke.ActualHP == 0;
 
-        // Si el monstruo estaba muerto, revivirlo con HP completo
-        if (wasMonsterDead)
-        {
-            monsterToInvoke.ActualHP = monsterToInvoke.stats.HP;
-            monsterToInvoke.HasBeenRecarm = true;
-        }
+        return (monsterToInvoke, monsterToReplace, isFromReserve);
+    }
 
-        monsterToInvoke.HasBeenIvoked = true;
-        monsterToReplace.HasBeenReplaceInInvoke = true;
-        
+    private bool IsMonsterDead(Unit unit)
+    {
+        return unit.ActualHP == 0;
+    }
+
+    private void ReviveMonster(Unit unit)
+    {
+        unit.ActualHP = unit.stats.HP;
+        unit.HasBeenRecarm = true;
+    }
+
+    private void UpdateUnitsForInvitation(Team team, int indexMonsterToInvoke, int indexMonsterToReplace, Unit monsterToInvoke, Unit monsterToReplace, bool isFromReserve)
+    {
         if (isFromReserve)
         {
-            // Intercambio normal reserva <-> tablero
             team.UnitsInGame[indexMonsterToReplace] = monsterToInvoke;
             team.UnitsInReserve[indexMonsterToInvoke] = monsterToReplace;
         }
         else
         {
-            // Viene del tablero - mover a la posición seleccionada
             int realSourceIndex = Math.Abs(indexMonsterToInvoke) - 1;
             team.UnitsInGame[indexMonsterToReplace] = monsterToInvoke;
             team.UnitsInGame[realSourceIndex] = monsterToReplace;
         }
-        
-        ChangeParameterHasBeenInvokeInMonsterList(team, monsterToInvoke);
-        ChangeParameterHasBeenReplaceInMonsterList(team, monsterToReplace);
-        
-        if (isFromReserve)
-        {
-            OrderUnitsInReserveByOrderMonsterList(team);
-        }
-        
-        // Si era un puesto vacío, agregar el índice al final del orden
-        if (isEmptyPosition && !team.indexesOrderAttack.Contains(indexMonsterToReplace))
-        {
-            team.indexesOrderAttack.Add(indexMonsterToReplace);
-        }
-        
-        _view.WriteLine($"{monsterToInvoke.name} ha sido invocado");
     }
 }

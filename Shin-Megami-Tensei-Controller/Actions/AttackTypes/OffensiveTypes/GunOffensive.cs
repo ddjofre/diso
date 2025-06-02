@@ -8,31 +8,23 @@ namespace Shin_Megami_Tensei.Actions.AttackTypes.OfensiveTypes;
 public class GunOffensive: BaseOffensive
 {
     private View _view;
-    private DamageCalculator _damageCalculator;
-    private TurnCalculator _turnCalculator;
     
-    
-    public GunOffensive(View view, TurnCalculator turnCalculator): base(view, turnCalculator)
+    public GunOffensive(View view): base(view)
     {
         _view = view;
-        _turnCalculator = turnCalculator;
-        _damageCalculator = new DamageCalculator();
         typeAttack = TypeAttack.Gun;
 
     }
-    
     
     protected override void GetAttackMessage(Unit attacker, Unit target)
     {
         _view.WriteLine($"{attacker.name} dispara a {target.name}");
     }
     
-    
     protected override string GetAffinity(Unit target)
     {
         return target.affinity.Gun;
     }
     
-   
     
 }

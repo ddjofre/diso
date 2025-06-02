@@ -21,7 +21,6 @@ public class InvitationExecutor
 
     public void Execute(Unit actualUnitPlaying, Player player)
     {
-        // Mostrar monstruos disponibles para invocar (tanto vivos como muertos)
         List<int> validIndexes = _invitationInvoke.ShowUnitsInReserve(player.Team);
         int userInput = _invitationInvoke.GetUserInput();
         
@@ -39,13 +38,11 @@ public class InvitationExecutor
         {
             throw new OperationCanceledException();
         }
-
-        // Mostrar posiciones disponibles para invocar
+        
         _invitationInvoke.ShowAvailablePositionsForInvokeMonster(player.Team);
         int unitToRemoveFromBoard = _invitationInvoke.GetUserInput();
         _view.WriteLine("----------------------------------------");
-
-        // Verificar si la unidad seleccionada está muerta para determinar el mensaje
+        
         Unit unitToInvoke;
         bool isFromReserve = realIndexToInvoke >= 0;
         
@@ -60,11 +57,9 @@ public class InvitationExecutor
         }
         
         bool wasUnitDead = unitToInvoke.ActualHP == 0;
-
-        // Realizar la invocación
+        
         _invitationInvoke.MakeInvoke(player, realIndexToInvoke, unitToRemoveFromBoard);
         
-        // Mostrar mensaje apropiado según si la unidad estaba muerta o viva
         if (wasUnitDead)
         {
             _view.WriteLine($"{actualUnitPlaying.name} revive a {unitToInvoke.name}");
@@ -74,7 +69,6 @@ public class InvitationExecutor
         
         _view.WriteLine("----------------------------------------");
         
-        // Calcular turnos como habilidad heal
         _turnCalculator.CalculateTurnAfterHeal(player);
         ShowTurnResults();
     }

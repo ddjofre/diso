@@ -9,7 +9,7 @@ public class SamuraiActionManager : BaseActionManager
 {
     public SamuraiActionManager(View view) : base(view) { }
 
-    protected override void ShowPossibleActions(Unit actualUnitPlaying)
+    protected override void ShowPossibleActions()
     {
         _view.WriteLine("1: Atacar");
         _view.WriteLine("2: Disparar");
@@ -37,7 +37,6 @@ public class SamuraiActionManager : BaseActionManager
         else if (_actionChosen == 4)
         {
             _actionExecutor.ExecuteSummonAtChosenPosition(context);
-            //PerformSummon(context);
             _turnCalculator.CalculateTurnAfterSummonOrPass(context.activePlayer);
             _actionExecutor.ShowTurnResults();
         }

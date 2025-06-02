@@ -11,15 +11,11 @@ public class TypeTargetFactory
 {
         
     private View _view;
-    private TurnCalculator _turnCalculator;
 
-    public TypeTargetFactory(View view, TurnCalculator turnCalculator)
+    public TypeTargetFactory(View view)
     {
         _view = view;
-        _turnCalculator = turnCalculator;
-
     }
-    
     
     public BaseTypeTarget CreateTypeTarget(TypeTarget typeTarget)
     {

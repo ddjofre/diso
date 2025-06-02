@@ -86,8 +86,6 @@ public class SingleTypeTarget: BaseTypeTarget
         _view.WriteLine($"{displayNumber}-Cancelar");
     }
     
-    
-    //esto quiza tenga que encapsularlo
     public override List<int> GetTargets(Player playerRival)
     {
         List<int> targets = new List<int>();

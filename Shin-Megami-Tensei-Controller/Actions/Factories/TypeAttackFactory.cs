@@ -11,63 +11,33 @@ public class TypeAttackFactory
 {
     private View _view;
     private TurnCalculator _turnCalculator;
+    private Dictionary<TypeAttack, Func<BaseOffensive>> _attackMap;
 
     public TypeAttackFactory(View view, TurnCalculator turnCalculator)
     {
         _view = view;
         _turnCalculator = turnCalculator;
 
+        _attackMap = new Dictionary<TypeAttack, Func<BaseOffensive>>
+        {
+            { TypeAttack.Phys, () => new PhysOffensive(_view) },
+            { TypeAttack.Gun, () => new GunOffensive(_view) },
+            { TypeAttack.Fire, () => new FireOffensive(_view) },
+            { TypeAttack.Ice, () => new IceOffensive(_view) },
+            { TypeAttack.Elec, () => new ElecOffensive(_view) },
+            { TypeAttack.Force, () => new ForceOffensive(_view) }
+        };
     }
-    
-    
-    
+
     public BaseOffensive CreateTypeAttack(TypeAttack typeAttack)
     {
-        if (typeAttack == TypeAttack.Phys)
+        if (_attackMap.TryGetValue(typeAttack, out var attackFactory))
         {
-            return new PhysOffensive(_view, _turnCalculator);
-        }
-        else if (typeAttack == TypeAttack.Gun)
-        {
-            return new GunOffensive(_view, _turnCalculator);
-        }
-        else if (typeAttack == TypeAttack.Fire)
-        {
-            return new FireOffensive(_view, _turnCalculator);
-        }
-        else if (typeAttack == TypeAttack.Ice)
-        {
-            return new IceOffensive(_view, _turnCalculator);
-        }
-        else if (typeAttack == TypeAttack.Elec)
-        {
-            return new ElecOffensive(_view, _turnCalculator);
-        }
-        else if (typeAttack == TypeAttack.Force)
-        {
-            return new ForceOffensive(_view, _turnCalculator);
+            return attackFactory();
         }
         else
         {
-            throw new NotImplementedException();
-        }
-        
-    }
-
-    public BaseHeal CreateTypeHealAttack(TypeHeal typeHeal)
-    {
-        if (typeHeal.Equals(TypeHeal.Dia))
-        {
-            return new DiaHeal(_view, _turnCalculator);
-        }
-        else if(typeHeal.Equals(TypeHeal.Recarm))
-        {
-            return new RecarmHeal(_view, _turnCalculator);
-        }
-        else
-        {
-            throw new NotImplementedException();
+            throw new KeyNotFoundException($"type attack not found");
         }
     }
-
 }

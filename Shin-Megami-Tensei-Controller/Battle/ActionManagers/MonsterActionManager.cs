@@ -9,7 +9,7 @@ public class MonsterActionManager : BaseActionManager
 {
     public MonsterActionManager(View view) : base(view) { }
 
-    protected override void ShowPossibleActions(Unit actualUnitPlaying)
+    protected override void ShowPossibleActions()
     {
         _view.WriteLine("1: Atacar");
         _view.WriteLine("2: Usar Habilidad");
@@ -33,7 +33,6 @@ public class MonsterActionManager : BaseActionManager
         else if (_actionChosen == 3)
         {
             _actionExecutor.ExecuteSummonReplacingInvoker(context);
-            //PerformSummon(context);
             _turnCalculator.CalculateTurnAfterSummonOrPass(context.activePlayer);
             _actionExecutor.ShowTurnResults();
         }

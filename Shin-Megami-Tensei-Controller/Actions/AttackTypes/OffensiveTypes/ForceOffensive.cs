@@ -8,15 +8,11 @@ namespace Shin_Megami_Tensei.Actions.AttackTypes.OfensiveTypes;
 public class ForceOffensive: BaseOffensive
 {
     private View _view;
-    private DamageCalculator _damageCalculator;
-    private TurnCalculator _turnCalculator;
     
     
-    public ForceOffensive(View view, TurnCalculator turnCalculator): base(view, turnCalculator)
+    public ForceOffensive(View view): base(view)
     {
         _view = view;
-        _turnCalculator = turnCalculator;
-        _damageCalculator = new DamageCalculator();
         typeAttack = TypeAttack.Force;
 
     }

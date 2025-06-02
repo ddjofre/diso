@@ -8,26 +8,18 @@ namespace Shin_Megami_Tensei.Actions.AttackTypes.OfensiveTypes;
 public class FireOffensive: BaseOffensive
 {
     private View _view;
-    private DamageCalculator _damageCalculator;
-    private TurnCalculator _turnCalculator;
     
-    
-    public FireOffensive(View view, TurnCalculator turnCalculator): base(view, turnCalculator)
+    public FireOffensive(View view): base(view)
     {
         _view = view;
-        _turnCalculator = turnCalculator;
-        _damageCalculator = new DamageCalculator();
         typeAttack = TypeAttack.Fire;
 
     }
-    
-    
     
     protected override void GetAttackMessage(Unit attacker, Unit target)
     {
         _view.WriteLine($"{attacker.name} lanza fuego a {target.name}");
     }
-    
     
     protected override string GetAffinity(Unit target)
     {

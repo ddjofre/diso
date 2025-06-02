@@ -10,14 +10,18 @@ public class RepelAttackEffect : IAttackEffectHandler
         if (attacker.ActualHP < 0) attacker.ActualHP = 0;
     }
     
-    public bool ShouldShowAttackMessage() => true;
-    
+    public bool ShouldShowAttackMessage()
+    {
+        return true;
+    }
+
     public string GetDamageMessage(Unit attacker, Unit target)
     {
-        return null; // No damage message for repel
+        return null;
     }
     
-    public Unit GetAffectedUnit(Unit attacker, Unit target) => attacker;
-    
-    
+    public Unit GetAffectedUnit(Unit attacker, Unit target)
+    {
+        return attacker;
+    }
 }
