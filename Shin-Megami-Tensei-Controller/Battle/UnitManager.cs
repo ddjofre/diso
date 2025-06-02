@@ -122,11 +122,11 @@ public class UnitManager
             // Si hay una unidad en esta posición y está muerta
             if (unit != null && unit.ActualHP <= 0)
             {
-                // Verificar si ya está en la reserva
+                // Verificar si ya está en la reserva (para evitar duplicados)
                 bool alreadyInReserve = false;
-                foreach (Unit reserveUnit in team.UnitsInReserve)
+                for (int k = 0; k < team.UnitsInReserve.Length; k++)
                 {
-                    if (reserveUnit == unit)
+                    if (team.UnitsInReserve[k] == unit)
                     {
                         alreadyInReserve = true;
                         break;
@@ -142,24 +142,16 @@ public class UnitManager
                         {
                             // Mover la unidad muerta a la reserva
                             team.UnitsInReserve[j] = unit;
-
-                            // Eliminar la unidad del campo de juego
-                            team.UnitsInGame[i] = null;
-
-                            // Remover del orden de ataque si está presente
-                            team.indexesOrderAttack.Remove(i);
-
-                            // Salir del loop de reserva ya que encontramos un slot
                             break;
                         }
                     }
                 }
-                else
-                {
-                    // La unidad ya está en reserva, así que simplemente eliminamos del campo y del orden de ataque
-                    team.UnitsInGame[i] = null;
-                    team.indexesOrderAttack.Remove(i);
-                }
+
+                // Eliminar la unidad del campo de juego
+                team.UnitsInGame[i] = null;
+
+                // Remover del orden de ataque si está presente
+                team.indexesOrderAttack.Remove(i);
             }
         }
     }

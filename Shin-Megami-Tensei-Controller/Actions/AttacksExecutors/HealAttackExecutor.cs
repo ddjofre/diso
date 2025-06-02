@@ -38,11 +38,21 @@ public class HealAttackExecutor
     
     public Unit GetRival(int indexRival, Player rivalPlayer)
     {
-        Unit rivalChosen = rivalPlayer.Team.UnitsInGame[indexRival];
-        //_view.WriteLine("----------------------------------------");
-        return rivalChosen;
+        // Si el índice es negativo, es de la reserva
+        if (indexRival < 0)
+        {
+            int reserveIndex = Math.Abs(indexRival) - 1; // -1 -> 0, -2 -> 1, etc.
+            Unit rivalChosen = rivalPlayer.Team.UnitsInReserve[reserveIndex];
+            return rivalChosen;
+        }
+        else
+        {
+            // Índice positivo, es del tablero
+            Unit rivalChosen = rivalPlayer.Team.UnitsInGame[indexRival];
+            return rivalChosen;
+        }
     }
-    
+
     private void MakeAttacks(List<int> indexUnitsToAttack, Player player, Unit actualUnitPlaying)
     {
         foreach (var index in indexUnitsToAttack)
