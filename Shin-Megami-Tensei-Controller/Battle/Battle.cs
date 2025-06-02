@@ -56,6 +56,7 @@ public class Battle
         
         ShowInitialInfo(actualPlayer, turn);
         
+        
     }
     
     public void ActualizeInitialsParametersToBattle(Player actualPlayer, Player rivalPlayer)
@@ -64,6 +65,10 @@ public class Battle
         _unitManager.SetUnitsInGame(rivalPlayer);
         
         actualUnitPlaying = _unitManager.SetActualUnitPlaying(actualPlayer);
+        
+        // Al final del método
+        _unitManager.MoveDeadUnitsToReserve(actualPlayer);
+        _unitManager.SetUnitsInGame(rivalPlayer);
         
     }
     
@@ -113,6 +118,73 @@ public class Battle
         // Now just two method calls with better separation
         actionManager.ChooseAction(actualUnitPlaying);
         actionManager.MakeAction(context);  // Only one parameter!
+        
+        //_unitManager.MoveDeadUnitsToReserve(actualPlayer);
+        //_unitManager.MoveDeadUnitsToReserve(rivalPlayer);
+        
+        _unitManager.MoveDeadUnitsToReserve(actualPlayer);
+        _unitManager.MoveDeadUnitsToReserve(rivalPlayer);
+        
+        Console.WriteLine("=== Rival Units In Game ===");
+        for (int i = 0; i < rivalPlayer.Team.UnitsInGame.Length; i++)
+        {
+            Unit unit = rivalPlayer.Team.UnitsInGame[i];
+            if (unit != null)
+            {
+                Console.WriteLine($"Slot {i}: {unit.name} - HP: {unit.ActualHP}");
+            }
+            else
+            {
+                Console.WriteLine($"Slot {i}: Empty");
+            }
+        }
+
+        Console.WriteLine("\n=== Rival Units In Reserve ===");
+        for (int i = 0; i < rivalPlayer.Team.UnitsInReserve.Length; i++)
+        {
+            Unit unit = rivalPlayer.Team.UnitsInReserve[i];
+            if (unit != null)
+            {
+                Console.WriteLine($"Slot {i}: {unit.name} - HP: {unit.ActualHP}");
+            }
+            else
+            {
+                Console.WriteLine($"Slot {i}: Empty");
+            }
+        }
+        
+        
+        
+        
+        Console.WriteLine("#######################################3");
+        Console.WriteLine("=== Player Units In Game ===");
+        for (int i = 0; i < actualPlayer.Team.UnitsInGame.Length; i++)
+        {
+            Unit unit = actualPlayer.Team.UnitsInGame[i];
+            if (unit != null)
+            {
+                Console.WriteLine($"Slot {i}: {unit.name} - HP: {unit.ActualHP}");
+            }
+            else
+            {
+                Console.WriteLine($"Slot {i}: Empty");
+            }
+        }
+
+        Console.WriteLine("\n=== Player Units In Reserve ===");
+        for (int i = 0; i < actualPlayer.Team.UnitsInReserve.Length; i++)
+        {
+            Unit unit = actualPlayer.Team.UnitsInReserve[i];
+            if (unit != null)
+            {
+                Console.WriteLine($"Slot {i}: {unit.name} - HP: {unit.ActualHP}");
+            }
+            else
+            {
+                Console.WriteLine($"Slot {i}: Empty");
+            }
+        }
+
         
         ActualizeOrderToUnits(actualPlayer);
         
@@ -196,6 +268,7 @@ public class Battle
 
         return false;
     }
+    
     
     
     

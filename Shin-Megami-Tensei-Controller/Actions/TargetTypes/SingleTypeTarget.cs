@@ -101,19 +101,4 @@ public class SingleTypeTarget: BaseTypeTarget
     
     
     
-    /*
-    public void Execute(Unit actualUnitPlaying, Unit target, Player player)
-    {
-        _typeAttack.MakeAttack(actualUnitPlaying,target);
-        _turnCalculator.CalculateTurnsAfterAttack(player, target, _typeAttack.typeAttack);
-        _typeAttack.ShowActionResults(actualUnitPlaying, target);
-    }
-    */
-    
-    
-    
-    
-    
-    
-    
 }

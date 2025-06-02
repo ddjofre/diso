@@ -13,6 +13,7 @@ public class BasicAttackExecutor
     private BaseTypeTarget _typeTarget;
     private TurnCalculator _turnCalculator;
     private View _view;
+    private UnitManager _unitManager;
     
     
     public BasicAttackExecutor(BaseOffensive baseOffensive, BaseTypeTarget baseTypeTarget, TurnCalculator turnCalculator, View view)
@@ -21,6 +22,7 @@ public class BasicAttackExecutor
         _typeTarget = baseTypeTarget;
         _turnCalculator = turnCalculator;
         _view = view;
+        _unitManager = new UnitManager(_view);
 
     }
 

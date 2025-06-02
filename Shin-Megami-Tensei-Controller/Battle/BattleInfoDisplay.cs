@@ -95,23 +95,11 @@ public class BattleInfoDisplay
     {
         List<string> nameUnits = new List<string>();
 
-        int f = 0;
-        foreach (var coso in team.indexesOrderAttack)
-        {
-            Console.WriteLine($"INDEXES N°{f}: {coso}" );
-            f++;
-        }
-
         for (int i = 0; i < 4; i++)
         {
-            if (i < team.indexesOrderAttack.Count)
-            {
-                Console.WriteLine($"1________________actual spd de {team.UnitsInGame[team.indexesOrderAttack[i]].name}: {team.UnitsInGame[team.indexesOrderAttack[i]].stats.Spd}");
-            }
             
             if (i < team.indexesOrderAttack.Count && team.UnitsInGame[team.indexesOrderAttack[i]].ActualHP != 0)
             {
-                Console.WriteLine($"2________________actual spd de {team.UnitsInGame[team.indexesOrderAttack[i]].name}: {team.UnitsInGame[team.indexesOrderAttack[i]].stats.Spd}");
                 nameUnits.Add(team.UnitsInGame[team.indexesOrderAttack[i]].name);
             }
         }
